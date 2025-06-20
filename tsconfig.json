@@ -1,0 +1,15 @@
+// tsconfig.json
+{
+    "compilerOptions": {
+        "rootDir": "src", // location of your .ts/.tsx
+        "outDir": "dist", // output bucket
+        "module": "commonjs", // or "esnext", "nodenext", etc.
+        "target": "es2019",
+        "declaration": true, // emit .d.ts alongside .js (optional)
+        "sourceMap": true, // emit .map files (optional)
+        "esModuleInterop": true // typical Node convenience
+    },
+    "include": [
+        "src"
+    ]
+}
