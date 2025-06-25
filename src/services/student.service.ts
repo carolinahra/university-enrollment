@@ -1,5 +1,5 @@
-import { StudentFactory } from "../factories/StudentFactory";
-import { Student } from "../models/Student";
+import { StudentFactory } from "../factories/student.factory";
+import { Student } from "../models/student";
 import { writeFile } from 'node:fs/promises';
 
 export class StudentService {

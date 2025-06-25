@@ -1,8 +1,8 @@
 import { error } from "console";
-import { CourseService } from "../services/CourseService"
+import { CourseService } from "../services/course.service"
 import { ErrorResponse, ExceptionService } from "../services/exception.service"
 import { GetCourseRequest } from "../requests/course/get-course.request.dto";
-import { Course } from "../models/Course";
+import { Course } from "../models/course";
 export class CourseController {
     private courseService: CourseService;
     private exceptionService: ExceptionService;

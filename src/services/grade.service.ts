@@ -1,5 +1,5 @@
-import { Grade } from "../models/Grade";
-import { GradeFactory } from "../factories/GradeFactory";
+import { Grade } from "../models/grade";
+import { GradeFactory } from "../factories/grade.factory";
 // TODO: Introduce indexes in all tables
 
 

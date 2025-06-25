@@ -1,5 +1,5 @@
-import { Prerequisite } from "../models/Prerequisite";
-import { PrerequisiteFactory } from "../factories/PrerequisiteFactory";
+import { Prerequisite } from "../models/prerequisite";
+import { PrerequisiteFactory } from "../factories/prerequisite.factory";
 
 export class PrerequisiteService {
     private prerequisiteFactory: PrerequisiteFactory;

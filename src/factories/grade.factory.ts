@@ -1,5 +1,5 @@
-import { Grade } from "../models/Grade";
-import { DatabaseService } from "../services/DatabaseService";
+import { Grade } from "../models/grade";
+import { DatabaseService } from "../services/database.service";
 // TODO: Introduce indexes in all tables
 
 

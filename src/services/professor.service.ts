@@ -1,5 +1,5 @@
-import { ProfessorFactory } from "../factories/ProfessorFactory";
-import { Professor } from "../models/Professor";
+import { ProfessorFactory } from "../factories/professor.factory";
+import { Professor } from "../models/professor";
 
 export class ProfessorService {
     private professorFactory: ProfessorFactory;

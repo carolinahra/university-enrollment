@@ -1,7 +1,7 @@
-import { StudentService } from "../services/StudentService";
-import { CourseService } from "../services/CourseService";
-import { StudentHasCourseService } from "../services/StudentHasCourseService";
-import { Student } from "../models/Student";
+import { StudentService } from "./student.service";
+import { CourseService } from "./course.service";
+import { StudentHasCourseService } from "./student-has-course.service";
+import { Student } from "../models/student";
 import { StudentNotFound } from "../exceptions/student-not-found.exception";
 import { CourseNotFound } from "../exceptions/course-not-found.exception";
 

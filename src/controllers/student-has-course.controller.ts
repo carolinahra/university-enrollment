@@ -1,5 +1,5 @@
 import { error } from "console";
-import { StudentHasCourseService } from "../services/StudentHasCourseService"
+import { StudentHasCourseService } from "../services/student-has-course.service"
 import { ExceptionService } from "../services/exception.service"
 export class StudentHasCourseController {
     private studentHasCourseService: StudentHasCourseService;

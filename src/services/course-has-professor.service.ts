@@ -1,5 +1,5 @@
-import { CourseHasProfessor } from "../models/CourseHasProfessor";
-import { CourseHasProfessorFactory } from "../factories/CourseHasProfessorFactory";
+import { CourseHasProfessor } from "../models/course-has-professor";
+import { CourseHasProfessorFactory } from "../factories/course-has-professor.factory";
 // TODO: Introduce indexes in all tables
 
 

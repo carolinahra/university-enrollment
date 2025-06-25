@@ -1,6 +1,6 @@
-import { Student } from "../models/Student";
+import { Student } from "../models/student";
 import { GetStudentRequest } from "../requests/student/get-student.request.dto";
-import { StudentService } from "../services/StudentService";
+import { StudentService } from "../services/student.service";
 import { ErrorResponse, ExceptionService } from "../services/exception.service";
 
 export class StudentController {

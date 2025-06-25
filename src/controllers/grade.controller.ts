@@ -1,7 +1,7 @@
-import { error } from "console";
 import { GradeService } from "../services/GradeService"
-import { ExceptionService } from "../services/exception.service"
-import e from "express";
+import { ErrorResponse, ExceptionService } from "../services/exception.service"
+import { GetGradeRequest } from "../requests/grade/get-grade.request.dto";
+import { Grade } from "../models/grade";
 export class GradeController {
     private gradeService: GradeService;
     private exceptionService: ExceptionService;
@@ -9,37 +9,57 @@ export class GradeController {
         this.gradeService = gradeService;
         this.exceptionService = exceptionService;
     }
-    getAll() {
+
+    public get(request: GetGradeRequest): Promise<Grade[] | ErrorResponse> {
+        if (request.courseId) {
+            return this.getGradesByCourseId(request.courseId);
+        }
+        if (request.studentId) {
+            return this.getGradesByStudentId(request.studentId);
+        }
+        if (request.grade) {
+            return this.getByGrades(request.grade);
+        }
+        if (request.semester) {
+            return this.getGradesBySemester(request.semester);
+        }
+        if (request.studentId & request.courseId) {
+            return this.getGradeByStudentIdAndCourseId(request.studentId, request.courseId);
+        }
+        return this.getAll();
+    }
+
+    private getAll() {
         return this.gradeService.getAll();
     }
 
-    getGradesByCourseId(courseId: number) {
+    private getGradesByCourseId(courseId: number) {
         return this.gradeService.getByCourseId(courseId).catch((error) => {
-            this.exceptionService.handle(error);
+            return this.exceptionService.handle(error);
         });
     }
 
-    getGradesByStudentId(studentId: number) {
+    private getGradesByStudentId(studentId: number) {
         return this.gradeService.getByStudentId(studentId).catch((error) => {
-            this.exceptionService.handle(error);
+            return this.exceptionService.handle(error);
         })
     }
 
-    getByGrades(grade: number) {
+    private getByGrades(grade: number) {
         return this.gradeService.getByGrade(grade).catch((error) => {
-            this.exceptionService.handle(error);
+            return this.exceptionService.handle(error);
         });
     }
 
-    getGradesBySemester(semester: number) {
+    private getGradesBySemester(semester: number) {
         return this.gradeService.getBySemester(semester).catch((error) => {
-            this.exceptionService.handle(error);
+            return this.exceptionService.handle(error);
         })
     }
 
-    getGradeByStudentIdAndCourseId(studentId: number, courseId: number) {
+    private getGradeByStudentIdAndCourseId(studentId: number, courseId: number) {
         return this.gradeService.getByStudentIdAndCourseId(studentId, courseId).catch((error) => {
-            this.exceptionService.handle(error);
+            return this.exceptionService.handle(error);
         })
     }
 

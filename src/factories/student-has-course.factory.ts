@@ -1,5 +1,5 @@
-import { StudentHasCourse } from "../models/StudentHasCourse";
-import { DatabaseService } from "../services/DatabaseService";
+import { StudentHasCourse } from "../models/student-has-course";
+import { DatabaseService } from "../services/database.service";
 // TODO: Introduce indexes in all tables
 
 

@@ -1,7 +1,7 @@
 import express from "express";
-import { DatabaseService } from "./services/DatabaseService"
-import { StudentFactory } from "./factories/StudentFactory";
-import { StudentService } from "./services/StudentService"
+import { DatabaseService } from "./services/database.service"
+import { StudentFactory } from "./factories/student.factory";
+import { StudentService } from "./services/student.service"
 import { StudentController } from "./controllers/student.controller";
 import { ExceptionService } from "./services/exception.service";
 import { GetStudentRequest } from "./requests/student/get-student.request.dto";

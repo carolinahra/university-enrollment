@@ -1,5 +1,5 @@
-import { CourseHasPrerequisite } from "../models/CourseHasPrerequisite";
-import { DatabaseService } from "../services/DatabaseService";
+import { CourseHasPrerequisite } from "../models/course-has-prerequisite";
+import { DatabaseService } from "../services/database.service";
 // TODO: Introduce indexes in all tables
 
 

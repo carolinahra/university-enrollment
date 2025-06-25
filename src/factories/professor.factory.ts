@@ -1,5 +1,5 @@
-import { Professor } from "../models/Professor";
-import { DatabaseService } from "../services/DatabaseService";
+import { Professor } from "../models/professor";
+import { DatabaseService } from "../services/database.service";
 
 // TODO: Introduce indexes in all tables
 export class ProfessorFactory {

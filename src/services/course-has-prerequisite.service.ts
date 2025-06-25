@@ -1,5 +1,5 @@
-import { CourseHasPrerequisite } from "../models/CourseHasPrerequisite";
-import { CourseHasPrerequisiteFactory } from "../factories/CourseHasPrerequisiteFactory";
+import { CourseHasPrerequisite } from "../models/course-has-prerequisite";
+import { CourseHasPrerequisiteFactory } from "../factories/course-has-prerequisite.factory";
 // TODO: Introduce indexes in all tables
 
 
