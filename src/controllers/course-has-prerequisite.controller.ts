@@ -1,4 +1,4 @@
-import { CourseHasPrerequisiteService } from "../services/CourseHasPrerequisiteService"
+import { CourseHasPrerequisiteService } from "../services/course-has-prerequisite.service"
 import { ExceptionService } from "../services/exception.service"
 export class CourseHasPrerequisiteController {
     private CourseHasPrerequisiteService: CourseHasPrerequisiteService;

@@ -1,4 +1,4 @@
-import { GradeService } from "../services/GradeService"
+import { GradeService } from "../services/grade.service"
 import { ErrorResponse, ExceptionService } from "../services/exception.service"
 import { GetGradeRequest } from "../requests/grade/get-grade.request.dto";
 import { Grade } from "../models/grade";

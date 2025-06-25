@@ -1,25 +1,25 @@
 import { InvalidRequest } from "../../exceptions/invalid-request.exception";
 
 export class GetPrerequisiteRequest {
-    id?: number;
-    name?: string;
-    state?: string;
+    name: string;
+    description: string;
+    state: string;
 
-    constructor(id?: number, name?: string, state?: string) {
-        this.id = id;
+    constructor(name: string, description: string, state: string) {
         this.name = name;
+        this.description = description;
         this.state = state;
     }
 
     public validate() {
-        if (this.isValidId(this.id)) {
-            return this.id;
-        }
         if (this.isValidState(this.state)) {
             return this.state;
         }
         if (this.isValidName(this.name)) {
             return this.name;
+        }
+        if (this.isValidDescription(this.description)) {
+            return this.description;
         }
         throw new InvalidRequest();
     }
@@ -32,10 +32,11 @@ export class GetPrerequisiteRequest {
     private isValidState(state: string): boolean {
         const stateRegex = /^[A-Za-z]{2,}$/;
         return stateRegex.test(state);
+    }
 
+    private isValidDescription(description: string): boolean {
+        const descriptionRegex = /^[A-Za-z.,]{2,}$/;
+        return descriptionRegex.test(description);
     }
-    private isValidId(id: number) {
-        const idRegex = /^[0-9]+$/;
-        return idRegex.test(id.toString());
-    }
+
 }

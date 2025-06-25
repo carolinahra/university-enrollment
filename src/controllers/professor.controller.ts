@@ -1,6 +1,6 @@
 import { error } from "console";
 import { Professor } from "../models/professor"
-import { ProfessorService } from "../services/ProfessorService"
+import { ProfessorService } from "../services/professor.service"
 import { ExceptionService, ErrorResponse } from "../services/exception.service"
 import { GetProfessorRequest } from "../requests/professor/get-professor.request.dto";
 
