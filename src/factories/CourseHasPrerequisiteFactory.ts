@@ -3,7 +3,7 @@ import { DatabaseService } from "../services/DatabaseService";
 // TODO: Introduce indexes in all tables
 
 
-export class StudentFactory {
+export class CourseHasPrerequisiteFactory {
     private databaseService: DatabaseService;
     constructor(databaseService: DatabaseService) {
         this.databaseService = databaseService;

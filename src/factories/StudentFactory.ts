@@ -38,7 +38,7 @@ export class StudentFactory {
             .then((students) => (students as Student[]).map(student => new Student(student)));
     }
     updateEmail(newEmail: string, email: string): Promise<Student[]> {
-        return this.databaseService.execute("UPDATE Students SET email = '?' WHERE email = '?'", [newEmail, email])
+        return this.databaseService.execute("UPDATE Students SET email = '?' WHERE email = '?'", [newEmail, email]) // binding paramaters
             .then((students) => (students as Student[]).map(student => new Student(student)));
     }
 
