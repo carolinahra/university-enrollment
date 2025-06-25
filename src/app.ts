@@ -36,8 +36,16 @@ app.get('/students', (req, res) => {
 });
 
 // ROUTE PARAMETERS
-app.get('/students/:id/course/:courseId', (req, res) => {
+app.get('/students/:name', (req, res) => {
     console.log(req.params);
+    const request = new GetStudentRequest(req.params.name);
+    studentController.get(request).then((students) => res.send(students));
+});
+app.get('/students/email/:email', (req, res) => {
+    console.log(req.params);
+    const request = new GetStudentRequest(req.params.email);
+    studentController.get(request).then((students) => res.send(students));
+
 });
 
 // Explicar que en javaSCRIPT TODO SON SCRIPTS
