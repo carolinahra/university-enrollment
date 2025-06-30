@@ -14,7 +14,7 @@ export class StudentFactory {
     }
 
     getByEmail(email: string): Promise<Student[]> {
-        return this.databaseService.execute("SELECT * FROM Student WHERE email  = '?'", [email])
+        return this.databaseService.execute("SELECT * FROM Student WHERE email  = ?", [email])
             .then((students) => (students as Student[]).map(student => new Student(student)));
     }
 
@@ -24,27 +24,27 @@ export class StudentFactory {
     }
 
     getByName(name: string): Promise<Student[]> {
-        return this.databaseService.execute("SELECT * FROM Student WHERE name = '?'", [name])
+        return this.databaseService.execute("SELECT * FROM Student WHERE name = ?", [name])
             .then((students) => (students as Student[]).map(student => new Student(student)));
     }
 
     insert(name: string, email: string): Promise<Student[]> {
-        return this.databaseService.execute("INSERT INTO Student name, email VALUES ('?','?')", [name, email])
-            .then((students) => (students as Student[]).map(student => new Student(student)));
+      return this.databaseService.execute("INSERT INTO Student (name, email) VALUES (?,?)", [name, email])
+      .then(() => this.getByEmail(email));
+       
     }
 
     updateName(name: string, email: string): Promise<Student[]> {
-        return this.databaseService.execute("UPDATE Students SET name = '?' WHERE email = '?'", [name, email])
-            .then((students) => (students as Student[]).map(student => new Student(student)));
+        return this.databaseService.execute("UPDATE Student SET name = ? WHERE email = ?", [name, email])
+        .then(() => this.getByEmail(email));
     }
     updateEmail(newEmail: string, email: string): Promise<Student[]> {
-        return this.databaseService.execute("UPDATE Students SET email = '?' WHERE email = '?'", [newEmail, email]) // binding paramaters
-            .then((students) => (students as Student[]).map(student => new Student(student)));
+        return this.databaseService.execute("UPDATE Student SET email = ? WHERE email = ?", [newEmail, email]) // binding paramaters
+            .then(() => this.getByEmail(newEmail));
     }
 
-    delete(email: string): Promise<Student[]> {
-        return this.databaseService.execute("DELETE FROM Student WHERE email = '?'", [email])
-        .then ((students) => (students as Student[]).map(student => new Student(student)));
+    delete(email: string): Promise<string> {
+        return this.databaseService.execute("DELETE FROM Student WHERE email = ?", [email]).then((message) => message = 'Student deleted');
     }
 
 

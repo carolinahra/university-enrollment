@@ -1,4 +1,4 @@
-import { InvalidRequest } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
 export class GetStudentRequest {
     name?: string;
@@ -10,13 +10,18 @@ export class GetStudentRequest {
     }
 
     public validate() {
+        let valid: string[];
+
         if (this.isValidEmail(this.email)) {
-            return this.email;
+             valid.push(this.email);
         }
         if (this.isValidName(this.name)) {
-            return this.name;
+            valid.push(this.name);
         }
-        throw new InvalidRequest();
+       if (valid.length = 0) {
+        throw new InvalidRequestException();
+       }
+       return valid;
     }
     
     private isValidName(name: string): boolean {

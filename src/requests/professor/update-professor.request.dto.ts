@@ -1,4 +1,4 @@
-import { InvalidRequest } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
 export interface UpdateProfessorRequest {
     name?: string;
@@ -26,7 +26,7 @@ export class UpdateProfessorRequest {
         if (this.isValidName(this.name)) {
             return this.name;
         }
-        throw new InvalidRequest();
+        throw new InvalidRequestException();
 
     }
     private isValidName(name: string): boolean {

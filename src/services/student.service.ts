@@ -34,10 +34,10 @@ export class StudentService {
         return this.studentFactory.updateName(name, email);
     }
     updateEmail(newEmail: string, email: string): Promise<Student[]> {
-        return this.studentFactory, this.updateEmail(newEmail, email);
+        return this.studentFactory.updateEmail(newEmail, email);
     }
 
-    delete(email: string): Promise<Student[]> {
+    delete(email: string): Promise<string> {
         return this.studentFactory.delete(email);
     }
 

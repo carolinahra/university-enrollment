@@ -29,7 +29,7 @@ export class StudentHasCourseFactory {
 
 
     insert(studentId: number, courseId: number, state: string): Promise<StudentHasCourse[]> {
-        return this.databaseService.execute("INSERT INTO StudentHasCourse student_id, course_id VALUES (?,?)", [studentId, courseId, state])
+        return this.databaseService.execute("INSERT INTO StudentHasCourse student_id, course_id VALUES (?,?,?)", [studentId, courseId, state])
             .then((studentHasCourses) => (studentHasCourses as StudentHasCourse[]).map(studentHasCourse => new StudentHasCourse(studentHasCourse)));
     }
 

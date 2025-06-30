@@ -1,4 +1,4 @@
-import { InvalidRequest } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
 export class GetGradeRequest {
     studentId: number;
@@ -26,7 +26,7 @@ export class GetGradeRequest {
         if (this.isValidSemester(this.semester)) {
             return this.semester;
         }
-        throw new InvalidRequest();
+        throw new InvalidRequestException();
     }
 
     private isValidId(id: number) {

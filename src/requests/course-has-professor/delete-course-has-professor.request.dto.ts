@@ -1,4 +1,4 @@
-import { InvalidRequest } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
 export class DeleteCourseHasProfessorRequest {
     courseId: number;
@@ -15,7 +15,7 @@ export class DeleteCourseHasProfessorRequest {
         if (this.isValidId(this.professorId)) {
             return this.professorId;
         }
-        throw new InvalidRequest();
+        throw new InvalidRequestException();
     }
 
     private isValidId(id: number) {

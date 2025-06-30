@@ -2,6 +2,10 @@ import { Student } from "../models/student";
 import { GetStudentRequest } from "../requests/student/get-student.request.dto";
 import { StudentService } from "../services/student.service";
 import { ErrorResponse, ExceptionService } from "../services/exception.service";
+import { InsertStudentRequest } from "../requests/student/insert-student.request.dto";
+import { UpdateStudentRequest } from "../requests/student/update-student.request.dto";
+import e from "express";
+import { DeleteStudentRequest } from "../requests/student/delete-student.request.dto";
 
 export class StudentController {
     private studentService: StudentService;
@@ -38,18 +42,29 @@ export class StudentController {
         });
     }
 
-    public insert(/* INSERTDTO*/) {
-
+    public insert(request: InsertStudentRequest): Promise<Student[] | ErrorResponse> {
+        return this.studentService.insert(request.name, request.email).catch((error) => {
+            return this.exceptionService.handle(error);
+        });
     }
 
 
-    public update(/* UPDATEDTO */) {
-        
+    public update(request: UpdateStudentRequest): Promise<Student[] | ErrorResponse> {
+        if (request.name) {
+            return this.studentService.updateName(request.name, request.email).catch((error) => {
+                return this.exceptionService.handle(error);
+            });
+        }
+        return this.studentService.updateEmail(request.newEmail, request.email).catch((error) => {
+            return this.exceptionService.handle(error);
+        })
     }
 
 
-    public delete(/* DELETEDTO*/ ) {
-        
+    public delete(request: DeleteStudentRequest): Promise<string | ErrorResponse> {
+        return this.studentService.delete(request.email).catch((error) => {
+            return this.exceptionService.handle(error);
+        })
     }
 
 }

@@ -1,4 +1,4 @@
-import { InvalidRequest } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
 export class DeleteProfessorRequest {
     email: string;
@@ -9,7 +9,7 @@ export class DeleteProfessorRequest {
         if (this.isValidEmail(this.email)) {
             return this.email;
         }
-        throw new InvalidRequest();
+        throw new InvalidRequestException();
     }
 
     private isValidEmail(email: string): boolean {

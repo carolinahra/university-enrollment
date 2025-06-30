@@ -1,4 +1,4 @@
-import { InvalidRequest } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
 export class DeleteCourseRequest {
     name: string;
@@ -10,7 +10,7 @@ export class DeleteCourseRequest {
         if (this.isValidName(this.name)) {
             return this.name;
         }
-        throw new InvalidRequest();
+        throw new InvalidRequestException();
     }
     private isValidName(name: string): boolean {
         const nameRegex = /^[A-Za-z]{2,}$/;

@@ -5,9 +5,14 @@ import { StudentService } from "./services/student.service"
 import { StudentController } from "./controllers/student.controller";
 import { ExceptionService } from "./services/exception.service";
 import { GetStudentRequest } from "./requests/student/get-student.request.dto";
+import { InsertStudentRequest } from "./requests/student/insert-student.request.dto";
+import { UpdateStudentRequest } from "./requests/student/update-student.request.dto";
+import { DeleteStudentRequest } from "./requests/student/delete-student.request.dto";
 
 const app = express();
 const port = 3000;
+
+app.use(express.json()); // Explicar proximo dia
 
 const dataBaseService = new DatabaseService({
     database: "university_enrollment_system",
@@ -20,7 +25,6 @@ const exceptionService = new ExceptionService();
 const studentFactory = new StudentFactory(dataBaseService);
 const studentService = new StudentService(studentFactory);
 const studentController = new StudentController(studentService, exceptionService);
-
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
@@ -45,11 +49,22 @@ app.get('/students/email/:email', (req, res) => {
     console.log(req.params);
     const request = new GetStudentRequest(req.params.email);
     studentController.get(request).then((students) => res.send(students));
-
 });
 
-// Explicar que en javaSCRIPT TODO SON SCRIPTS
-//app.post()
+app.post('/students', (req, res) => {
+    const request = new InsertStudentRequest(req.body.name, req.body.email);
+    studentController.insert(request).then((students) => res.send(students));
+});
+
+app.put('/students', (req, res) => {
+    const request = new UpdateStudentRequest(req.body.email, req.body.name, req.body.newEmail);
+    studentController.update(request).then((students) => res.send(students));
+});
+
+app.delete('/students', (req, res) => {
+    const request = new DeleteStudentRequest(req.body.email as string);
+    studentController.delete(request).then((response) => res.send(response));
+});
 //app.put()
 //app.delete()
 

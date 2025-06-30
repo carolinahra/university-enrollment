@@ -2,8 +2,8 @@ import { StudentService } from "./student.service";
 import { CourseService } from "./course.service";
 import { StudentHasCourseService } from "./student-has-course.service";
 import { Student } from "../models/student";
-import { StudentNotFound } from "../exceptions/student-not-found.exception";
-import { CourseNotFound } from "../exceptions/course-not-found.exception";
+import { StudentNotFoundException } from "../exceptions/student-not-found.exception";
+import { CourseNotFoundException } from "../exceptions/course-not-found.exception";
 
 export class InscriptionService {
     private studentService: StudentService;
@@ -17,23 +17,26 @@ export class InscriptionService {
     }
 
     handle(studentEmail: string, courseName: string) {
-        let student: Student;
-
+        /*Promise.all([
+        this.studentService.getByEmail(studentEmail),
+        this.courseService.getByName(courseName),
+        ]).then(([student, course, number]) => {
+            
+        })*/
         return this.studentService.getByEmail(studentEmail)
             .then((students) => {
                 if (!students.length) { // GUARD OK
-                    throw new StudentNotFound();
+                    throw new StudentNotFoundException();
                 }
 
-                student = students[0];
-                return this.courseService.getByName(courseName);
+                return Promise.all([students, this.courseService.getByName(courseName)]);
             })
-            .then((courses) => {
+            .then(([students, courses]) => {
                 if (!courses.length) { // GUARD OK
-                    throw new CourseNotFound();
+                    throw new CourseNotFoundException();
                 }
 
-                return this.createStudentHasCourse(student.id!, courses[0].id!, "active");
+                return this.createStudentHasCourse(students[0].id!, courses[0].id!, "active");
             });
     }
 

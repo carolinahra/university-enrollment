@@ -1,23 +1,17 @@
-import { InvalidRequest } from "../../exceptions/invalid-request.exception";
-
-export interface UpdateStudentRequest {
-    name?: string;
-    newEmail?: string;
-    email: string;
-}
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
 export class UpdateStudentRequest {
+    email: string;
     name?: string;
     newEmail?: string;
-    email: string;
 
-    constructor(updateStudent: UpdateStudentRequest) {
-        this.name = updateStudent.name;
-        this.newEmail = updateStudent.newEmail;
-        this.email = updateStudent.email;
+    constructor(email: string, name?: string, newEmail?: string) {
+        this.name = name;
+        this.newEmail = newEmail;
+        this.email = email;
     }
 
-        public validate() {
+    public validate() {
         if (this.isValidEmail(this.email)) {
             return this.email;
         }
@@ -27,7 +21,7 @@ export class UpdateStudentRequest {
         if (this.isValidName(this.name)) {
             return this.name;
         }
-        throw new InvalidRequest();
+        throw new InvalidRequestException();
 
     }
     private isValidName(name: string): boolean {

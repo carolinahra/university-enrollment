@@ -1,4 +1,4 @@
-import { InvalidRequest } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
 export class InsertProfessorRequest {
     name: string;
@@ -16,7 +16,7 @@ export class InsertProfessorRequest {
         if (this.isValidName(this.name)) {
             return this.name;
         }
-        throw new InvalidRequest();
+        throw new InvalidRequestException();
     }
 
     private isValidName(name: string): boolean {

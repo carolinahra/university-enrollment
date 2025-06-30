@@ -8,7 +8,6 @@ interface DatabaseConfig {
     port?: number;
 }
 
-
 export class DatabaseService {
     private host: string;
     private user: string;

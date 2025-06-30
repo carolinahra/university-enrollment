@@ -1,25 +1,30 @@
 import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
 
-export class InsertCourseHasProfessorRequest {
+export class UpdateCourseHasPrerequisiteRequest {
     courseId: number;
-    professorId: number;
-    state: string;
+    prerequisiteId: number;
+    state?: string;
+    newCourseId?: number;
 
 
-    constructor(courseId: number, professorId: number, state: string) {
+    constructor(courseId: number, prerequisiteId: number, state?: string, newCourseId?: number) {
         this.courseId = courseId;
-        this.professorId = professorId;
+        this.prerequisiteId = prerequisiteId;
         this.state = state;
+        this.newCourseId = newCourseId;
     }
     public validate() {
         if (this.isValidId(this.courseId)) {
             return this.courseId;
         }
-        if (this.isValidId(this.professorId)) {
-            return this.professorId;
+        if (this.isValidId(this.prerequisiteId)) {
+            return this.prerequisiteId;
         }
         if (this.isValidState(this.state)) {
             return this.state;
+        }
+        if (this.isValidId(this.newCourseId)) {
+            return this.newCourseId;
         }
         throw new InvalidRequestException();
     }
