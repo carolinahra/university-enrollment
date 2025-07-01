@@ -12,7 +12,8 @@ export class CourseHasProfessorFactory {
 
     getByProfessorId(professorId: number): Promise<CourseHasProfessor[]> {
         return this.databaseService.execute("SELECT * FROM CourseHasProfessor WHERE professor_id = ?", [professorId])
-            .then((courseHasProfessors) => (courseHasProfessors as CourseHasProfessor[]).map(courseHasProfessor => new CourseHasProfessor(courseHasProfessor)));
+            .then((courseHasProfessors) => (courseHasProfessors as CourseHasProfessor[])
+                .map(courseHasProfessor => new CourseHasProfessor(courseHasProfessor)));
     }
     getByCourseId(courseId: number): Promise<CourseHasProfessor[]> {
         return this.databaseService.execute("SELECT * FROM CourseHasProfessor WHERE course_id = ?", [courseId])
@@ -30,22 +31,22 @@ export class CourseHasProfessorFactory {
 
 
     insert(courseId: number, professorId: number, state: string): Promise<CourseHasProfessor[]> {
-        return this.databaseService.execute("INSERT INTO CourseHasProfessor course_id, professor_id, state  VALUES (?,?,'?')", [courseId, professorId, state])
-            .then((courseHasProfessors) => (courseHasProfessors as CourseHasProfessor[]).map(courseHasProfessor => new CourseHasProfessor(courseHasProfessor)));
+        return this.databaseService.execute("INSERT INTO CourseHasProfessor (course_id, professor_id, state)  VALUES (?,?,?)", [courseId, professorId, state])
+            .then(() => this.getByProfessorIdAndCourseId(professorId, courseId));
     }
 
     updateState(state: string, courseId: number, professorId: number): Promise<CourseHasProfessor[]> {
         return this.databaseService.execute("UPDATE CourseHasProfessor SET state = ? WHERE course_id= ? AND professor_id = ?", [state, courseId, professorId])
-            .then((courseHasProfessors) => (courseHasProfessors as CourseHasProfessor[]).map(courseHasProfessor => new CourseHasProfessor(courseHasProfessor)));
+            .then(() => this.getByProfessorIdAndCourseId(professorId, courseId));
     }
     updateCourseId(newCourseId: number, courseId: number, professorId): Promise<CourseHasProfessor[]> {
         return this.databaseService.execute("UPDATE CourseHasProfessor SET course_id = ? WHERE course_id= ? AND professor_id = ?", [newCourseId, courseId, professorId])
-            .then((courseHasProfessors) => (courseHasProfessors as CourseHasProfessor[]).map(courseHasProfessor => new CourseHasProfessor(courseHasProfessor)));
+            .then(() => this.getByProfessorIdAndCourseId(professorId, courseId));
     }
 
-    delete(courseId: number, professorId: number): Promise<CourseHasProfessor[]> {
+    delete(courseId: number, professorId: number): Promise<string> {
         return this.databaseService.execute("DELETE FROM CourseHasProfessor WHERE course_id = ? AND professor_id = ?", [courseId, professorId])
-            .then((courseHasProfessors) => (courseHasProfessors as CourseHasProfessor[]).map(courseHasProfessor => new CourseHasProfessor(courseHasProfessor)));
+            .then((message) => message = 'Course has Professor deleted');
     }
 
 

@@ -22,6 +22,10 @@ export class StudentService {
         return this.studentFactory.getAll();
     }
 
+    get(limit: number, offset: number): Promise<Student[]> {
+        return this.studentFactory.get(limit, offset);
+    }
+
     getByName(name: string): Promise<Student[]> {
         return this.studentFactory.getByName(name);
     }

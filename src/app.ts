@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 // after ? = query parameters
 app.get('/students', (req, res) => {
     console.log(req.query); // QUERY PARAMETERS
-    const request = new GetStudentRequest(req.query.name as string, req.query.email as string);
+    const request = new GetStudentRequest(req.query.name as string, req.query.email as string, req.query.limit as unknown as number, req.query.offset as unknown as number);
 
     studentController.get(request).then((students) => res.send(students));
 });
@@ -50,6 +50,7 @@ app.get('/students/email/:email', (req, res) => {
     const request = new GetStudentRequest(req.params.email);
     studentController.get(request).then((students) => res.send(students));
 });
+
 
 app.post('/students', (req, res) => {
     const request = new InsertStudentRequest(req.body.name, req.body.email);

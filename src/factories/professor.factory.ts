@@ -1,3 +1,4 @@
+import { ResultSetHeader } from "mysql2";
 import { Professor } from "../models/professor";
 import { DatabaseService } from "../services/database.service";
 
@@ -14,7 +15,7 @@ export class ProfessorFactory {
     }
 
     getByEmail(email: string): Promise<Professor[]> {
-        return this.databaseService.execute("SELECT * FROM Professor WHERE email  = '?'", [email])
+        return this.databaseService.execute("SELECT * FROM Professor WHERE email  = ?", [email])
             .then((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
     }
 
@@ -24,27 +25,27 @@ export class ProfessorFactory {
     }
 
     getByName(name: string): Promise<Professor[]> {
-        return this.databaseService.execute("SELECT * FROM Professor WHERE name = '?'", [name])
+        return this.databaseService.execute("SELECT * FROM Professor WHERE name = ?", [name])
             .then((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
     }
 
     insert(name: string, email: string): Promise<Professor[]> {
-        return this.databaseService.execute("INSERT INTO Professor name, email VALUES ('?','?')", [name, email])
-            .then((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
+        return this.databaseService.execute("INSERT INTO Professor (name, email) VALUES (?,?)", [name, email])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));;
     }
 
     updateName(name: string, email: string): Promise<Professor[]> {
-        return this.databaseService.execute("UPDATE Professor SET name = '?' WHERE email = '?'", [name, email])
-            .then((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
+        return this.databaseService.execute("UPDATE Professor SET name = ? WHERE email = ?", [name, email])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
     updateEmail(newEmail: string, email: string): Promise<Professor[]> {
-        return this.databaseService.execute("UPDATE Professor SET email = '?' WHERE email = '?'", [newEmail, email])
-            .then((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
+        return this.databaseService.execute("UPDATE Professor SET email = '?' WHERE email = ?", [newEmail, email])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
 
-    delete(email: string): Promise<Professor[]> {
-        return this.databaseService.execute("DELETE FROM Professor WHERE email = '?'", [email])
-        .then ((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
+    delete(email: string): Promise<string> {
+        return this.databaseService.execute("DELETE FROM Professor WHERE email = ?", [email])
+            .then((message) => message = 'Student deleted');
     }
 
 

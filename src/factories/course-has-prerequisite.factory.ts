@@ -30,22 +30,22 @@ export class CourseHasPrerequisiteFactory {
 
 
     insert(courseId: number, prerequisiteId: number, state: string): Promise<CourseHasPrerequisite[]> {
-        return this.databaseService.execute("INSERT INTO CourseHasPrerequisite course_id, prerequisite_id, state  VALUES (?,?,'?')", [courseId, prerequisiteId, state])
-            .then((courseHasPrerequisites) => (courseHasPrerequisites as CourseHasPrerequisite[]).map(courseHasPrerequisite => new CourseHasPrerequisite(courseHasPrerequisite)));
+        return this.databaseService.execute("INSERT INTO CourseHasPrerequisite (course_id, prerequisite_id, state)  VALUES (?,?,?)", [courseId, prerequisiteId, state])
+            .then(() => this.getByPrerequisiteIdAndCourseId(prerequisiteId, courseId));
     }
 
     updateState(state: string, courseId: number, prerequisiteId: number): Promise<CourseHasPrerequisite[]> {
         return this.databaseService.execute("UPDATE CourseHasPrerequisite SET state = ? WHERE course_id = ? AND prerequisite_id = ?", [state, courseId, prerequisiteId])
-            .then((courseHasPrerequisites) => (courseHasPrerequisites as CourseHasPrerequisite[]).map(courseHasPrerequisite => new CourseHasPrerequisite(courseHasPrerequisite)));
+            .then(() => this.getByPrerequisiteIdAndCourseId(prerequisiteId, courseId));
     }
     updateCourseId(newCourseId: number, courseId: number, prerequisiteId: number): Promise<CourseHasPrerequisite[]> {
         return this.databaseService.execute("UPDATE CourseHasPrerequisite SET course_id = ? WHERE course_id = ? AND prerequisite_id = ?", [newCourseId, courseId, prerequisiteId])
-            .then((courseHasPrerequisites) => (courseHasPrerequisites as CourseHasPrerequisite[]).map(courseHasPrerequisite => new CourseHasPrerequisite(courseHasPrerequisite)));
+            .then(() => this.getByPrerequisiteIdAndCourseId(prerequisiteId, courseId));
     }
 
-    delete(courseId: number, prerequisiteId: number): Promise<CourseHasPrerequisite[]> {
+    delete(courseId: number, prerequisiteId: number): Promise<string> {
         return this.databaseService.execute("DELETE FROM CourseHasPrerequisite WHERE course_id = ? AND prerequisite_id = ?", [courseId, prerequisiteId])
-            .then((courseHasPrerequisites) => (courseHasPrerequisites as CourseHasPrerequisite[]).map(courseHasPrerequisite => new CourseHasPrerequisite(courseHasPrerequisite)));
+            .then((message) => message = 'Course has Prerequisite deleted');
     }
 
 

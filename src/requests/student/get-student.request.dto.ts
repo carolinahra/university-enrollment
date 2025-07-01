@@ -3,10 +3,14 @@ import { InvalidRequestException } from "../../exceptions/invalid-request.except
 export class GetStudentRequest {
     name?: string;
     email?: string;
+    limit?: number;
+    offset?: number;
 
-    constructor(name?: string, email?: string) {
+    constructor(name?: string, email?: string, limit?: number, offset?: number) {
         this.name = name;
         this.email = email;
+        this.limit = limit;
+        this.offset = offset;
     }
 
     public validate() {

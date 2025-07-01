@@ -11,31 +11,69 @@ const databaseService = new DatabaseService({
     password: "",
     host: "localhost"
 });
+databaseService.connect();
 const studentFactory = new StudentFactory(databaseService);
 const studentService = new StudentService(studentFactory);
 const studentHasCourseFactory = new StudentHasCourseFactory(databaseService);
 const studentHasCourseService = new StudentHasCourseService(studentHasCourseFactory);
 
-const numberOfStudents: number = 0;
+const numberOfStudents: number = 1_000_000;
 function stringGenerator(): string {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     let result = '';
-    const randomNumber = Math.floor(Math.random() * (10 - 4) + 5);
+    const randomNumber = Math.floor(Math.random() * (10) + 10 );
     for (let i = 0; i < randomNumber; i++) {
         const letterPosition = Math.floor(Math.random() * letters.length);
         result += letters[letterPosition];
-    } 
+    }
     return result;
 }
 
 function courseIdGenerator(): number {
-    const randomNumber = Math.floor(Math.random() * (2) + 1);
-    return randomNumber;
+    const courseId = Math.floor(Math.random() * (2) + 1);
+    return courseId;
 }
-for (let i = 0; i < numberOfStudents; i++) {
-    const email = stringGenerator();
-    studentFactory.insert(stringGenerator(), email)
-        .then(() => studentFactory.getByEmail(email))
-        .then((student) => studentHasCourseFactory.insert(student[0].id, courseIdGenerator(),'active'));
+
+let counter = 0;
+function isExistingEmail(email: string): Promise<boolean> {
+    return studentFactory.getByEmail(email).then((students) => {
+        return (students.length > 0)
+    });
 
 }
+
+function generateNonExistingEmail() {
+    let email = stringGenerator();
+    return isExistingEmail(email)
+        .then(function (existsEmail) {
+            if (existsEmail) {
+               return generateNonExistingEmail();
+            }
+            return email;
+        });
+}
+
+function insertStudent(numberOfStudents: number) {
+   if (counter == numberOfStudents) {
+        return;
+   }
+    
+    generateNonExistingEmail()
+        .then((email) => studentFactory.insert(stringGenerator(), email))
+        .then((student) => studentHasCourseFactory.insert(student[0].id, courseIdGenerator(), 'active'))
+        .then(() => counter++)
+        .then(() => {
+            if (counter == numberOfStudents) {
+                databaseService.disconnect()
+            };
+        })
+        .then(() => insertStudent(numberOfStudents))
+        .catch(error => {
+            console.log(error);
+        });
+    
+}
+
+
+insertStudent(numberOfStudents);
+

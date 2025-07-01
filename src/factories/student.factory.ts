@@ -1,6 +1,8 @@
+import { ResultSetHeader } from "mysql2";
 import { Student } from "../models/student";
 import { DatabaseService } from "../services/database.service";
 
+const a = 'pepe';
 // TODO: Introduce indexes in all tables
 export class StudentFactory {
     private databaseService: DatabaseService;
@@ -23,6 +25,11 @@ export class StudentFactory {
             .then((students) => (students as Student[]).map(student => new Student(student)));
     }
 
+    get(limit: number, offset: number): Promise<Student[]> {
+        return this.databaseService.execute("SELECT * FROM Student LIMIT ? OFFSET ?;", [limit, offset])
+        .then((students) => (students as Student[]).map(student => new Student(student)));
+    }
+
     getByName(name: string): Promise<Student[]> {
         return this.databaseService.execute("SELECT * FROM Student WHERE name = ?", [name])
             .then((students) => (students as Student[]).map(student => new Student(student)));
@@ -30,17 +37,17 @@ export class StudentFactory {
 
     insert(name: string, email: string): Promise<Student[]> {
       return this.databaseService.execute("INSERT INTO Student (name, email) VALUES (?,?)", [name, email])
-      .then(() => this.getByEmail(email));
+      .then((result: ResultSetHeader) => this.getById(result.insertId));
        
     }
 
     updateName(name: string, email: string): Promise<Student[]> {
         return this.databaseService.execute("UPDATE Student SET name = ? WHERE email = ?", [name, email])
-        .then(() => this.getByEmail(email));
+        .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
     updateEmail(newEmail: string, email: string): Promise<Student[]> {
-        return this.databaseService.execute("UPDATE Student SET email = ? WHERE email = ?", [newEmail, email]) // binding paramaters
-            .then(() => this.getByEmail(newEmail));
+        return this.databaseService.execute("UPDATE Student SET email = ? WHERE email = ?", [newEmail, email])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
 
     delete(email: string): Promise<string> {

@@ -23,7 +23,11 @@ export class StudentController {
             return this.getStudentsByName(request.name);
         }
 
-        return this.getAll();
+        return this.getStudents(request.limit, request.offset);
+    }
+
+    private getStudents(limit: number, offset: number) {
+        return this.studentService.get(limit, offset);
     }
 
     private getAll() {

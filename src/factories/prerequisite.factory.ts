@@ -1,3 +1,4 @@
+import { ResultSetHeader } from "mysql2";
 import { Prerequisite } from "../models/prerequisite";
 import { DatabaseService } from "../services/database.service";
 
@@ -13,7 +14,7 @@ export class PrerequisiteFactory {
     }
 
     getByState(state: string): Promise<Prerequisite[]> {
-        return this.databaseService.execute("SELECT * FROM Prerequisite WHERE state  = '?'", [state])
+        return this.databaseService.execute("SELECT * FROM Prerequisite WHERE state  = ?", [state])
             .then((prerequisites) => (prerequisites as Prerequisite[]).map(prerequisite => new Prerequisite(prerequisite)));
     }
 
@@ -23,31 +24,31 @@ export class PrerequisiteFactory {
     }
 
     getByName(name: string): Promise<Prerequisite[]> {
-        return this.databaseService.execute("SELECT * FROM Prerequisite WHERE name = '?'", [name])
+        return this.databaseService.execute("SELECT * FROM Prerequisite WHERE name = ?", [name])
             .then((prerequisites) => (prerequisites as Prerequisite[]).map(prerequisite => new Prerequisite(prerequisite)));
     }
 
     insert(name: string, description: string, state: string): Promise<Prerequisite[]> {
-        return this.databaseService.execute("INSERT INTO Prerequisite name, description, state VALUES ('?','?','?')", [name, description, state])
-            .then((prerequisites) => (prerequisites as Prerequisite[]).map(prerequisite => new Prerequisite(prerequisite)));
+        return this.databaseService.execute("INSERT INTO Prerequisite (name, description, state) VALUES ?,?,?)", [name, description, state])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
 
     updateName(newName: string, name: string): Promise<Prerequisite[]> {
-        return this.databaseService.execute("UPDATE Prerequisites SET name = '?' WHERE name = '?'", [newName, name])
-            .then((prerequisites) => (prerequisites as Prerequisite[]).map(prerequisite => new Prerequisite(prerequisite)));
+        return this.databaseService.execute("UPDATE Prerequisites SET name = ? WHERE name = ?", [newName, name])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
     updateState(state: string, name: string): Promise<Prerequisite[]> {
-        return this.databaseService.execute("UPDATE Prerequisites SET state = '?' WHERE name = '?'", [state, name])
-            .then((prerequisites) => (prerequisites as Prerequisite[]).map(prerequisite => new Prerequisite(prerequisite)));
+        return this.databaseService.execute("UPDATE Prerequisites SET state = ? WHERE name = ?", [state, name])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
     updateDescription(description: string, name: string): Promise<Prerequisite[]> {
-        return this.databaseService.execute("UPDATE Prerequisites SET description = '?' WHERE name = '?'", [description, name])
-            .then((prerequisites) => (prerequisites as Prerequisite[]).map(prerequisite => new Prerequisite(prerequisite)));
+        return this.databaseService.execute("UPDATE Prerequisites SET description = ? WHERE name = ?", [description, name])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
 
-    delete(name: string): Promise<Prerequisite[]> {
-        return this.databaseService.execute("DELETE FROM Prerequisite WHERE name = '?'", [name])
-            .then((prerequisites) => (prerequisites as Prerequisite[]).map(prerequisite => new Prerequisite(prerequisite)));
+    delete(name: string): Promise<string> {
+        return this.databaseService.execute("DELETE FROM Prerequisite WHERE name = ?", [name])
+            .then((message) => message = 'Prerequisite Deleted' )
     }
 
 

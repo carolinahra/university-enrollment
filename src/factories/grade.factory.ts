@@ -1,3 +1,4 @@
+import { ResultSetHeader } from "mysql2";
 import { Grade } from "../models/grade";
 import { DatabaseService } from "../services/database.service";
 // TODO: Introduce indexes in all tables
@@ -32,32 +33,32 @@ export class GradeFactory {
     }
 
     getByGrade(grade: number): Promise<Grade[]> {
-        return this.databaseService.execute("SELECT * FROM Grade WHERE grade = '?'", [grade])
+        return this.databaseService.execute("SELECT * FROM Grade WHERE grade = ?", [grade])
             .then((grades) => (grades as Grade[]).map(grade => new Grade(grade)));
     }
 
     getBySemester(semester: number): Promise<Grade[]> {
-        return this.databaseService.execute("SELECT * FROM Grade WHERE semester = '?'", [semester])
+        return this.databaseService.execute("SELECT * FROM Grade WHERE semester = ?", [semester])
             .then((grades) => (grades as Grade[]).map(grade => new Grade(grade)));
     }
 
     insert(studentId: number, courseId: number, grade: number, semester: number): Promise<Grade[]> {
-        return this.databaseService.execute("INSERT INTO Grade student_id, course_id, grade VALUES (?,?,?,?)", [studentId, courseId, grade, semester])
-            .then((grades) => (grades as Grade[]).map(grade => new Grade(grade)));
+        return this.databaseService.execute("INSERT INTO Grade (student_id, course_id, grade) VALUES (?,?,?,?)", [studentId, courseId, grade, semester])
+            .then((result: ResultSetHeader) => this.getById(result.insertId));;
     }
 
     updateGrade(grade: number, studentId: number, courseId: number): Promise<Grade[]> {
         return this.databaseService.execute("UPDATE Grade SET grade = ? WHERE student_id= ? AND course_id = ?", [grade, studentId, courseId])
-            .then((grades) => (grades as Grade[]).map(grade => new Grade(grade)));
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
     updateSemester(semester: number, studentId: number, courseId: number): Promise<Grade[]> {
         return this.databaseService.execute("UPDATE Grade SET semester = ? WHERE student_id= ? AND course_id = ?", [semester, studentId, courseId])
-            .then((grades) => (grades as Grade[]).map(grade => new Grade(grade)));
+            .then((result: ResultSetHeader) => this.getById(result.insertId));
     }
 
-    delete(studentId: number, courseId: number): Promise<Grade[]> {
-        return this.databaseService.execute("DELETE FROM Grade WHERE email = '?'", [studentId, courseId])
-            .then((grades) => (grades as Grade[]).map(grade => new Grade(grade)));
+    delete(studentId: number, courseId: number): Promise<string> {
+        return this.databaseService.execute("DELETE FROM Grade WHERE email = ?", [studentId, courseId])
+            .then((message) => message = 'Grade deleted');
     }
 
 
