@@ -1,5 +1,6 @@
-import { StudentHasCourse } from "../models/student-has-course";
-import { StudentHasCourseFactory } from "../factories/student-has-course.factory";
+import { StudentHasCourse } from "../models/student-has-course.js";
+import { StudentHasCourseFactory } from "../factories/student-has-course.factory.js";
+import { PoolConnection } from "mysql2/promise";
 // TODO: Introduce indexes in all tables
 
 
@@ -22,10 +23,12 @@ export class StudentHasCourseService {
     getAll(): Promise<StudentHasCourse[]> {
         return this.studentHasCourseFactory.getAll();
     }
+    get(limit: number, offset: number): Promise<StudentHasCourse[]> {
+        return this.studentHasCourseFactory.get(limit, offset);
+    }
 
-
-    insert(studentId: number, courseId: number, state: string): Promise<StudentHasCourse[]> {
-        return this.studentHasCourseFactory.insert(studentId, courseId, state);
+    insert(studentId: number, courseId: number, state: string, connection?: PoolConnection): Promise<StudentHasCourse[]> {
+        return this.studentHasCourseFactory.insert(studentId, courseId, state, connection);
     }
 
     updateStudentId(studentId: number, courseId: number, newStudentId: number): Promise<StudentHasCourse[]> {
@@ -34,11 +37,11 @@ export class StudentHasCourseService {
     updateCourseId(newCourseId: number, studentId: number, courseId: number): Promise<StudentHasCourse[]> {
         return this.studentHasCourseFactory.updateCourseId(newCourseId, studentId, courseId);
     }
-     updateState(state: string, studentId,courseId: number): Promise<StudentHasCourse[]> {
+    updateState(state: string, studentId: number, courseId: number): Promise<StudentHasCourse[]> {
         return this.studentHasCourseFactory.updateState(state, studentId, courseId);
     }
 
-    delete(studentId: number, courseId: number): Promise<StudentHasCourse[]> {
+    delete(studentId: number, courseId: number): Promise<string> {
         return this.studentHasCourseFactory.delete(studentId, courseId);
     }
 

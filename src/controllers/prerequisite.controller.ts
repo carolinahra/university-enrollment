@@ -1,7 +1,7 @@
-import { Prerequisite } from "../models/prerequisite";
-import { PrerequisiteService } from "../services/prerequisite.service";
-import { ErrorResponse, ExceptionService } from "../services/exception.service";
-import { GetPrerequisiteRequest } from "../requests/prerequisite/get-prerequisite.request.dto";
+import { Prerequisite } from "../models/prerequisite.js";
+import { PrerequisiteService } from "../services/prerequisite.service.js";
+import { ErrorResponse, ExceptionService } from "../services/exception.service.js";
+import { GetPrerequisiteRequest } from "../requests/prerequisite/get-prerequisite.request.dto.js";
 
 export class PrerequisiteController {
     private prerequisiteService: PrerequisiteService;
@@ -21,7 +21,7 @@ export class PrerequisiteController {
         if (request.state) {
             return this.getByState(request.state);
         }
-        return this.getAll();
+        return this.getPrerequisite(request.limit, request.offset);
 
     }
 
@@ -29,6 +29,10 @@ export class PrerequisiteController {
         return this.prerequisiteService.getById(id).catch((error) => {
             return this.exceptionService.handle(error);
         })
+    }
+
+    getPrerequisite(limit: number, offset: number) {
+        return this.prerequisiteService.get(limit, offset);
     }
 
     private getByState(state: string) {

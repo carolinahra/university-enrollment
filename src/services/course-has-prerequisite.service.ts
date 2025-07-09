@@ -1,5 +1,5 @@
-import { CourseHasPrerequisite } from "../models/course-has-prerequisite";
-import { CourseHasPrerequisiteFactory } from "../factories/course-has-prerequisite.factory";
+import { CourseHasPrerequisite } from "../models/course-has-prerequisite.js";
+import { CourseHasPrerequisiteFactory } from "../factories/course-has-prerequisite.factory.js";
 // TODO: Introduce indexes in all tables
 
 
@@ -24,6 +24,9 @@ export class CourseHasPrerequisiteService {
         return this.courseHasPrerequisiteFactory.getAll();
     }
 
+    get(limit: number, offset: number) {
+        return this.courseHasPrerequisiteFactory.get(limit, offset);
+    }
 
     insert(courseId: number, prerequisiteId: number, state: string): Promise<CourseHasPrerequisite[]> {
         return this.courseHasPrerequisiteFactory.insert(courseId, prerequisiteId, state);
@@ -36,7 +39,7 @@ export class CourseHasPrerequisiteService {
         return this.courseHasPrerequisiteFactory.updateCourseId(newCourseId, courseId, prerequisiteId);
     }
 
-    delete(courseId: number, prerequisiteId: number): Promise<CourseHasPrerequisite[]> {
+    delete(courseId: number, prerequisiteId: number): Promise<string> {
         return this.courseHasPrerequisiteFactory.delete(courseId, prerequisiteId);
     }
 

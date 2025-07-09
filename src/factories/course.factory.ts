@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
-import { Course } from "../models/course";
-import { DatabaseService } from "../services/database.service";
+import { Course } from "../models/course.js";
+import { DatabaseService } from "../services/database.service.js";
 
 // TODO: Introduce indexes in all tables
 export class CourseFactory {
@@ -24,8 +24,19 @@ export class CourseFactory {
             .then((courses) => (courses as Course[]).map(course => new Course(course)));
     }
 
+    get(limit: number, offset: number): Promise<Course[]> {
+        return this.databaseService.execute("SELECT * FROM Course LIMIT = ? OFSET = ?", [limit, offset])
+            .then((courses) => (courses as Course[]).map((course) => new Course(course)));
+    }
+
     getByName(name: string): Promise<Course[]> {
         return this.databaseService.execute("SELECT * FROM Course WHERE name = ?", [name])
+            .then((courses) => (courses as Course[]).map(course => new Course(course)));
+    }
+
+    getManyByName(names: string[]): Promise<Course[]> {
+        const placeholders = names.map(() => '?').join(', ');
+        return this.databaseService.execute("SELECT * FROM Course WHERE name IN (${placeholders})", [names])
             .then((courses) => (courses as Course[]).map(course => new Course(course)));
     }
 
@@ -36,20 +47,23 @@ export class CourseFactory {
 
     updateName(newName: string, name: string): Promise<Course[]> {
         return this.databaseService.execute("UPDATE Courses SET name = ? WHERE name = ?", [newName, name])
-            .then((result: ResultSetHeader) => this.getById(result.insertId));;
+            .then(() => this.getByName(name));
     }
     updateState(state: string, name: string): Promise<Course[]> {
         return this.databaseService.execute("UPDATE Courses SET state = ? WHERE name = ?", [state, name])
-            .then((result: ResultSetHeader) => this.getById(result.insertId));;
+            .then(() => this.getByName(name));
     }
     updateCapacity(capacity: number, name: string): Promise<Course[]> {
         return this.databaseService.execute("UPDATE Courses SET capacity = ?", [capacity, name])
-            .then((result: ResultSetHeader) => this.getById(result.insertId));;
+            .then(() => this.getByName(name));
     }
 
     delete(name: string): Promise<string> {
         return this.databaseService.execute("DELETE FROM Course WHERE name = ?", [name])
-            .then((message) => message = 'Course Deleted');
+            .then(() => {
+                const message = 'Course Deleted'
+                return message;
+            });
     }
 
 

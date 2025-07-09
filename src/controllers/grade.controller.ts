@@ -1,7 +1,7 @@
-import { GradeService } from "../services/grade.service"
-import { ErrorResponse, ExceptionService } from "../services/exception.service"
-import { GetGradeRequest } from "../requests/grade/get-grade.request.dto";
-import { Grade } from "../models/grade";
+import { GradeService } from "../services/grade.service.js"
+import { ErrorResponse, ExceptionService } from "../services/exception.service.js"
+import { GetGradeRequest } from "../requests/grade/get-grade.request.dto.js";
+import { Grade } from "../models/grade.js";
 export class GradeController {
     private gradeService: GradeService;
     private exceptionService: ExceptionService;
@@ -26,11 +26,15 @@ export class GradeController {
         if (request.studentId & request.courseId) {
             return this.getGradeByStudentIdAndCourseId(request.studentId, request.courseId);
         }
-        return this.getAll();
+        return this.getGrade(request.limit, request.offset);
     }
 
     private getAll() {
         return this.gradeService.getAll();
+    }
+
+    private getGrade(limit: number, offset: number) {
+        return this.gradeService.get(limit, offset);
     }
 
     private getGradesByCourseId(courseId: number) {

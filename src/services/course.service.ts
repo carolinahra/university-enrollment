@@ -1,5 +1,5 @@
-import { Course } from "../models/course";
-import { CourseFactory } from "../factories/course.factory";
+import { Course } from "../models/course.js";
+import { CourseFactory } from "../factories/course.factory.js";
 
 // TODO: Introduce indexes in all tables
 export class CourseService {
@@ -20,8 +20,16 @@ export class CourseService {
         return this.courseFactory.getAll();
     }
 
+    get(limit: number, offset: number): Promise<Course[]> {
+        return this.courseFactory.get(limit, offset);
+    }
+
     getByName(name: string): Promise<Course[]> {
         return this.courseFactory.getByName(name);
+    }
+
+    getManyByName(names: string[]): Promise<Course[]> {
+        return this.courseFactory.getManyByName(names);
     }
 
     insert(name: string, capacity: number, state: string): Promise<Course[]> {
@@ -38,7 +46,7 @@ export class CourseService {
         return this.courseFactory.updateCapacity(capacity, name);
     }
 
-    delete(name: string): Promise<Course[]> {
+    delete(name: string): Promise<string> {
         return this.courseFactory.delete(name);
     }
 

@@ -1,14 +1,18 @@
-import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception.js";
 
 export class GetPrerequisiteRequest {
     id?: number;
     name?: string;
     state?: string;
+    limit?: number;
+    offset?: number;
 
-    constructor(id?: number, name?: string, state?: string) {
+    constructor(id?: number, name?: string, state?: string, limit?: number, offset?: number) {
         this.id = id;
         this.name = name;
         this.state = state;
+        this.limit = limit;
+        this.offset = offset;
     }
 
     public validate() {

@@ -1,8 +1,8 @@
 import { error } from "console";
-import { CourseService } from "../services/course.service"
-import { ErrorResponse, ExceptionService } from "../services/exception.service"
-import { GetCourseRequest } from "../requests/course/get-course.request.dto";
-import { Course } from "../models/course";
+import { CourseService } from "../services/course.service.js"
+import { ErrorResponse, ExceptionService } from "../services/exception.service.js"
+import { GetCourseRequest } from "../requests/course/get-course.request.dto.js";
+import { Course } from "../models/course.js";
 export class CourseController {
     private courseService: CourseService;
     private exceptionService: ExceptionService;
@@ -18,11 +18,15 @@ export class CourseController {
         if (request.state) {
             return this.getCourseByState(request.state);
         }
-        return this.getAll();
+        return this.getCourse(request.limit, request.ofset);
     }
 
     private getAll() {
         return this.courseService.getAll();
+    }
+
+    private getCourse(limit: number, offset: number) {
+        return this.courseService.get(limit, offset);
     }
 
     private getCourseByName(name: string) {

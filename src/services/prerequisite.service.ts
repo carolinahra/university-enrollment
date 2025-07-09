@@ -1,5 +1,5 @@
-import { Prerequisite } from "../models/prerequisite";
-import { PrerequisiteFactory } from "../factories/prerequisite.factory";
+import { Prerequisite } from "../models/prerequisite.js";
+import { PrerequisiteFactory } from "../factories/prerequisite.factory.js";
 
 export class PrerequisiteService {
     private prerequisiteFactory: PrerequisiteFactory;
@@ -17,6 +17,10 @@ export class PrerequisiteService {
 
     getAll(): Promise<Prerequisite[]> {
         return this.prerequisiteFactory.getAll();
+    }
+
+    get(limit: number, offset: number): Promise<Prerequisite[]> {
+        return this.prerequisiteFactory.get(limit, offset);
     }
 
     getByName(name: string): Promise<Prerequisite[]> {
@@ -37,7 +41,7 @@ export class PrerequisiteService {
         return this.prerequisiteFactory.updateDescription(description, name);
     }
 
-    delete(name: string): Promise<Prerequisite[]> {
+    delete(name: string): Promise<string> {
         return this.prerequisiteFactory.delete(name);
     }
 

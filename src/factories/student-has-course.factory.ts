@@ -1,5 +1,6 @@
-import { StudentHasCourse } from "../models/student-has-course";
-import { DatabaseService } from "../services/database.service";
+import { PoolConnection } from "mysql2/promise";
+import { StudentHasCourse } from "../models/student-has-course.js";
+import { DatabaseService } from "../services/database.service.js";
 // TODO: Introduce indexes in all tables
 
 
@@ -27,9 +28,14 @@ export class StudentHasCourseFactory {
             .then((studentHasCourses) => (studentHasCourses as StudentHasCourse[]).map(studentHasCourse => new StudentHasCourse(studentHasCourse)));
     }
 
+     get(limit: number, offset: number): Promise<StudentHasCourse[]> {
+            return this.databaseService.execute("SELECT * FROM StudentHasCourse LIMIT ? OFFSET ?;", [limit, offset])
+            .then((studentHasCourse) => (studentHasCourse as StudentHasCourse[]).map(studentHasCourse => new StudentHasCourse(studentHasCourse)));
+        }
 
-    insert(studentId: number, courseId: number, state: string): Promise<StudentHasCourse[]> {
-        return this.databaseService.execute("INSERT INTO Student_has_Course (student_id, course_id, state) VALUES (?,?,?)", [studentId, courseId, state])
+
+    insert(studentId: number, courseId: number, state: string, connection?: PoolConnection): Promise<StudentHasCourse[]> {
+        return this.databaseService.execute("INSERT INTO Student_has_Course (student_id, course_id, state) VALUES (?,?,?)", [studentId, courseId, state], connection)
             .then(() => this.getByStudentIdAndCourseId(studentId, courseId));
     }
 
@@ -48,8 +54,9 @@ export class StudentHasCourseFactory {
 
     delete(studentId: number, courseId: number): Promise<string> {
         return this.databaseService.execute("DELETE FROM Student_has_Course WHERE student_id = ? AND course_id = ?", [studentId, courseId])
-            .then((message) => message = 'Student has Course deleted');
+            .then(() => {const message = "Student has course deleted";
+                return message;
+            });
     }
-
 
 }

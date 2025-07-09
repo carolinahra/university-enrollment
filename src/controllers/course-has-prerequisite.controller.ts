@@ -1,30 +1,49 @@
-import { CourseHasPrerequisiteService } from "../services/course-has-prerequisite.service"
-import { ExceptionService } from "../services/exception.service"
+import { CourseHasPrerequisite } from "../models/course-has-prerequisite.js";
+import { GetCourseHasPrerequisiteRequest } from "../requests/course-has-prerequisite/get-course-has-prerequisite.request.dto.js";
+import { CourseHasPrerequisiteService } from "../services/course-has-prerequisite.service.js"
+import { ErrorResponse, ExceptionService } from "../services/exception.service.js"
 export class CourseHasPrerequisiteController {
-    private CourseHasPrerequisiteService: CourseHasPrerequisiteService;
+    private courseHasPrerequisiteService: CourseHasPrerequisiteService;
     private exceptionService: ExceptionService;
-    constructor(CourseHasPrerequisiteService: CourseHasPrerequisiteService, exceptionService: ExceptionService) {
-        this.CourseHasPrerequisiteService = CourseHasPrerequisiteService;
+    constructor(courseHasPrerequisiteService: CourseHasPrerequisiteService, exceptionService: ExceptionService) {
+        this.courseHasPrerequisiteService = courseHasPrerequisiteService;
         this.exceptionService = exceptionService;
     }
+
+
+    get(request: GetCourseHasPrerequisiteRequest): Promise<CourseHasPrerequisite[] | ErrorResponse> {
+        if (request.courseId) {
+            return this.getCourseHasPrerequisiteByCourseId(request.courseId);
+        }
+        if (request.prerequisiteId) {
+            return this.getCourseHasPrerequisitesByPrerequisiteId(request.prerequisiteId);
+        }
+
+        return this.getCourseHasPrerequisite(request.limit, request.offset);
+    }
+
     getAll() {
-        return this.CourseHasPrerequisiteService.getAll();
+        return this.courseHasPrerequisiteService.getAll();
+    }
+
+    getCourseHasPrerequisite(limit: number, offset: number) {
+        return this.courseHasPrerequisiteService.get(limit, offset);
     }
 
     getCourseHasPrerequisitesByPrerequisiteId(prerequisiteId: number) {
-        return this.CourseHasPrerequisiteService.getByPrerequisiteId(prerequisiteId).catch((error) => {
-            this.exceptionService.handle(error);
+        return this.courseHasPrerequisiteService.getByPrerequisiteId(prerequisiteId).catch((error) => {
+            return this.exceptionService.handle(error);
         });
     }
 
     getCourseHasPrerequisiteByCourseId(courseId: number) {
-        return this.CourseHasPrerequisiteService.getByCourseId(courseId).catch((error) => {
-            this.exceptionService.handle(error);
+        return this.courseHasPrerequisiteService.getByCourseId(courseId).catch((error) => {
+            return this.exceptionService.handle(error);
         });
     }
     getCourseHasPrerequisiteByPrerequisiteIdAndCourseId(prerequisiteId: number, courseId: number) {
-        return this.CourseHasPrerequisiteService.getByPrerequisiteIdAndCourseId(courseId, prerequisiteId).catch((error) => {
-            this.exceptionService.handle(error);
+        return this.courseHasPrerequisiteService.getByPrerequisiteIdAndCourseId(courseId, prerequisiteId).catch((error) => {
+            return this.exceptionService.handle(error);
         })
     }
 

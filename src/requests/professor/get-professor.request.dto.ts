@@ -1,11 +1,16 @@
-import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception.js";
 
 export class GetProfessorRequest {
     name?: string;
     email?: string;
-    constructor(name?: string, email?: string) {
+    limit?: number;
+    offset?: number;
+
+    constructor(name?: string, email?: string, limit?: number, offset?: number) {
         this.name = name;
         this.email = email;
+        this.limit = limit;
+        this.offset = offset;
     }
 
     public validate() {

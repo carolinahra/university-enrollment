@@ -1,4 +1,5 @@
-import { Connection, createPool, Pool } from 'mysql2';
+import { Connection, createPool, Pool } from 'mysql2/promise'; // cambiar import a mysql2/promise
+
 
 interface DatabaseConfig {
     host: string;
@@ -35,18 +36,24 @@ export class DatabaseService {
         })
     }
 
+    async execute(query: string, values?: Array<string | string[] | number>, connection?: Connection) {
 
-    async execute(query: string, values?: Array<string | number>, connection?: Connection) {
-        return new Promise((resolve, reject) => {
+        return (connection || this.pool).execute(query, values)
+        .then(([result]) => {return result})
+        .catch((error) => {throw error});
+     /*   return new Promise((resolve, reject) => {
             (connection || this.pool).execute(query, values, function (error, result, fields) {
                 if (error) {
                     return reject(error.message);
                 }
                 return resolve(result);
             });
-        });
-
+        });*/
     }
+
+   getPool(): Pool {
+    return this.pool;
+   }
 
     disconnect() {
         this.pool.end();

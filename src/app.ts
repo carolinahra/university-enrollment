@@ -1,18 +1,26 @@
 import express from "express";
-import { DatabaseService } from "./services/database.service"
-import { StudentFactory } from "./factories/student.factory";
-import { StudentService } from "./services/student.service"
-import { StudentController } from "./controllers/student.controller";
-import { ExceptionService } from "./services/exception.service";
-import { GetStudentRequest } from "./requests/student/get-student.request.dto";
-import { InsertStudentRequest } from "./requests/student/insert-student.request.dto";
-import { UpdateStudentRequest } from "./requests/student/update-student.request.dto";
-import { DeleteStudentRequest } from "./requests/student/delete-student.request.dto";
+import { DatabaseService } from "./services/database.service.js";
+import { StudentFactory } from "./factories/student.factory.js";
+import { StudentService } from "./services/student.service.js"
+import { StudentController } from "./controllers/student.controller.js";
+import { ExceptionService } from "./services/exception.service.js";
+import { GetStudentRequest } from "./requests/student/get-student.request.dto.js";
+import { InsertStudentRequest } from "./requests/student/insert-student.request.dto.js";
+import { UpdateStudentRequest } from "./requests/student/update-student.request.dto.js";
+import { DeleteStudentRequest } from "./requests/student/delete-student.request.dto.js";
 
 const app = express();
 const port = 3000;
 
 app.use(express.json()); // Explicar proximo dia
+
+app.use((req, res, next) => {
+    console.log('Time:', Date.now())
+    res.on('close', () => { // Event -> explicar proximo dia
+        console.log('after');
+    });
+    next();
+});
 
 const dataBaseService = new DatabaseService({
     database: "university_enrollment_system",
@@ -32,6 +40,8 @@ app.get('/', (req, res) => {
 
 // PATH
 // after ? = query parameters
+
+// student
 app.get('/students', (req, res) => {
     console.log(req.query); // QUERY PARAMETERS
     const request = new GetStudentRequest(req.query.name as string, req.query.email as string, req.query.limit as unknown as number, req.query.offset as unknown as number);
@@ -50,7 +60,6 @@ app.get('/students/email/:email', (req, res) => {
     const request = new GetStudentRequest(req.params.email);
     studentController.get(request).then((students) => res.send(students));
 });
-
 
 app.post('/students', (req, res) => {
     const request = new InsertStudentRequest(req.body.name, req.body.email);
@@ -72,3 +81,5 @@ app.delete('/students', (req, res) => {
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 });
+
+// professor

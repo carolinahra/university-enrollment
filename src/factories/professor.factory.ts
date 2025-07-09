@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
-import { Professor } from "../models/professor";
-import { DatabaseService } from "../services/database.service";
+import { Professor } from "../models/professor.js";
+import { DatabaseService } from "../services/database.service.js";
 
 // TODO: Introduce indexes in all tables
 export class ProfessorFactory {
@@ -24,6 +24,11 @@ export class ProfessorFactory {
             .then((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
     }
 
+    get(limit: number, offset: number): Promise<Professor[]> {
+        return this.databaseService.execute("SELECT * FROM Professor LIMIT = ? OFFSET = ?", [limit, offset])
+            .then((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
+    }
+
     getByName(name: string): Promise<Professor[]> {
         return this.databaseService.execute("SELECT * FROM Professor WHERE name = ?", [name])
             .then((professors) => (professors as Professor[]).map(professor => new Professor(professor)));
@@ -31,21 +36,24 @@ export class ProfessorFactory {
 
     insert(name: string, email: string): Promise<Professor[]> {
         return this.databaseService.execute("INSERT INTO Professor (name, email) VALUES (?,?)", [name, email])
-            .then((result: ResultSetHeader) => this.getById(result.insertId));;
+            .then(() => this.getByEmail(email));
     }
 
     updateName(name: string, email: string): Promise<Professor[]> {
         return this.databaseService.execute("UPDATE Professor SET name = ? WHERE email = ?", [name, email])
-            .then((result: ResultSetHeader) => this.getById(result.insertId));
+            .then(() => this.getByEmail(email));
     }
     updateEmail(newEmail: string, email: string): Promise<Professor[]> {
         return this.databaseService.execute("UPDATE Professor SET email = '?' WHERE email = ?", [newEmail, email])
-            .then((result: ResultSetHeader) => this.getById(result.insertId));
+            .then(() => this.getByEmail(email));
     }
 
     delete(email: string): Promise<string> {
         return this.databaseService.execute("DELETE FROM Professor WHERE email = ?", [email])
-            .then((message) => message = 'Student deleted');
+            .then(() => {
+                const message = 'Student deleted';
+                return message;
+            });
     }
 
 

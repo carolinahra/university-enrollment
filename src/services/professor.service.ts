@@ -1,5 +1,5 @@
-import { ProfessorFactory } from "../factories/professor.factory";
-import { Professor } from "../models/professor";
+import { ProfessorFactory } from "../factories/professor.factory.js";
+import { Professor } from "../models/professor.js";
 
 export class ProfessorService {
     private professorFactory: ProfessorFactory;
@@ -14,6 +14,10 @@ export class ProfessorService {
     }
     getAll(): Promise<Professor[]> {
         return this.professorFactory.getAll();
+    }
+
+    get(limit: number, offset: number): Promise<Professor[]> {
+        return this.professorFactory.get(limit, offset);
     }
 
     getByName(name: string): Promise<Professor[]> {
@@ -31,7 +35,7 @@ export class ProfessorService {
         return this.professorFactory, this.updateEmail(newEmail, email);
     }
 
-    delete(email: string): Promise<Professor[]> {
+    delete(email: string): Promise<string> {
         return this.professorFactory.delete(email);
     }
 

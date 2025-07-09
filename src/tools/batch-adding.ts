@@ -1,9 +1,9 @@
-import { Student } from "../models/student";
-import { StudentService } from "../services/student.service";
-import { DatabaseService } from "../services/database.service"
-import { StudentFactory } from "../factories/student.factory";
-import { StudentHasCourseFactory } from "../factories/student-has-course.factory";
-import { StudentHasCourseService } from "../services/student-has-course.service";
+import { Student } from "../models/student.js";
+import { StudentService } from "../services/student.service.js";
+import { DatabaseService } from "../services/database.service.js"
+import { StudentFactory } from "../factories/student.factory.js";
+import { StudentHasCourseFactory } from "../factories/student-has-course.factory.js";
+import { StudentHasCourseService } from "../services/student-has-course.service.js";
 
 const databaseService = new DatabaseService({
     database: "university_enrollment_system",

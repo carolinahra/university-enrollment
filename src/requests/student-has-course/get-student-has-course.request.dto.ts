@@ -1,15 +1,19 @@
-import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception.js";
 
 export class GetStudentHasCourseRequest {
     studentId?: number;
     courseId?: number;
     state?: string;
+    limit?: number;
+    offset?: number;
 
 
-    constructor(studentId?: number, courseId?: number, state?: string) {
+    constructor(studentId?: number, courseId?: number, state?: string, limit?: number, offset?: number) {
         this.studentId = studentId;
         this.courseId = courseId;
         this.state = state;
+        this.limit = limit;
+        this.offset = offset;
     }
     public validate() {
         if (this.isValidId(this.studentId)) {

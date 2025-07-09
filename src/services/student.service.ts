@@ -1,5 +1,5 @@
-import { StudentFactory } from "../factories/student.factory";
-import { Student } from "../models/student";
+import { StudentFactory } from "../factories/student.factory.js";
+import { Student } from "../models/student.js";
 import { writeFile } from 'node:fs/promises';
 
 export class StudentService {
@@ -28,6 +28,10 @@ export class StudentService {
 
     getByName(name: string): Promise<Student[]> {
         return this.studentFactory.getByName(name);
+    }
+
+    getManyByEmail(emails: string[]): Promise<Student[]> {
+        return this.studentFactory.getManyByEmail(emails);
     }
 
     insert(name: string, email: string): Promise<Student[]> {

@@ -1,5 +1,5 @@
-import { CourseHasProfessor } from "../models/course-has-professor";
-import { CourseHasProfessorFactory } from "../factories/course-has-professor.factory";
+import { CourseHasProfessor } from "../models/course-has-professor.js";
+import { CourseHasProfessorFactory } from "../factories/course-has-professor.factory.js";
 // TODO: Introduce indexes in all tables
 
 
@@ -24,6 +24,9 @@ export class CourseHasProfessorService {
         return this.courseHasProfessorFactory.getAll();
     }
 
+    get(limit: number, offset: number): Promise<CourseHasProfessor[]> {
+        return this.courseHasProfessorFactory.get(limit, offset);
+    }
 
     insert(courseId: number, professorId: number, state: string): Promise<CourseHasProfessor[]> {
         return this.courseHasProfessorFactory.insert(courseId, professorId, state);
@@ -36,7 +39,7 @@ export class CourseHasProfessorService {
         return this.courseHasProfessorFactory.updateCourseId(newCourseId, courseId, professorId);
     }
 
-    delete(courseId: number, professorId: number): Promise<CourseHasProfessor[]> {
+    delete(courseId: number, professorId: number): Promise<string> {
         return this.courseHasProfessorFactory.delete(courseId, professorId);
     }
 

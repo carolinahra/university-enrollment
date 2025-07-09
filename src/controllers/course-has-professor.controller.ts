@@ -1,6 +1,7 @@
 import { error } from "console";
-import { CourseHasProfessorService } from "../services/course-has-professor.service"
-import { ExceptionService } from "../services/exception.service"
+import { CourseHasProfessorService } from "../services/course-has-professor.service.js"
+import { ExceptionService } from "../services/exception.service.js"
+import { GetCourseHasProfessorRequest } from "../requests/course-has-professor/get-course-has-professor.request.dto.js";
 export class CourseHasProfessorController {
     private courseHasProfessorService: CourseHasProfessorService;
     private exceptionService: ExceptionService;
@@ -8,8 +9,25 @@ export class CourseHasProfessorController {
         this.courseHasProfessorService = courseHasProfessorService;
         this.exceptionService = exceptionService;
     }
+
+    get(request: GetCourseHasProfessorRequest) {
+              if (request.courseId) {
+                return this.getCourseHasProfessorByCourseId(request.courseId);
+            }
+            if (request.professorId) {
+                return this.getCourseHasProfessorByCourseId(request.professorId);
+            }
+    
+            return this.getCourseHasProfessor(request.limit, request.offset);
+    }
+
+
     getAll() {
         return this.courseHasProfessorService.getAll();
+    }
+
+    getCourseHasProfessor(limit: number, offset: number) {
+        return this.courseHasProfessorService.get(limit, offset);
     }
 
     getCourseHasProfessorsByProfessorId(professorId: number) {

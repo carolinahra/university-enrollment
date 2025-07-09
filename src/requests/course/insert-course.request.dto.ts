@@ -1,4 +1,4 @@
-import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception.js";
 
 export class InsertCourseRequest {
     name: string

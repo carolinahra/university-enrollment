@@ -1,8 +1,8 @@
 import { error } from "console";
-import { Professor } from "../models/professor"
-import { ProfessorService } from "../services/professor.service"
-import { ExceptionService, ErrorResponse } from "../services/exception.service"
-import { GetProfessorRequest } from "../requests/professor/get-professor.request.dto";
+import { Professor } from "../models/professor.js"
+import { ProfessorService } from "../services/professor.service.js"
+import { ExceptionService, ErrorResponse } from "../services/exception.service.js"
+import { GetProfessorRequest } from "../requests/professor/get-professor.request.dto.js";
 
 export class ProfessorController {
     private professorService: ProfessorService;
@@ -20,11 +20,15 @@ export class ProfessorController {
             return this.getProfessorsByName(request.name);
         }
 
-        return this.getAll();
+        return this.getProfessor(request.limit, request.offset);
     }
 
     private getAll() {
         return this.professorService.getAll();
+    }
+
+    private getProfessor(limit: number, offset: number) {
+        return this.professorService.get(limit, offset);
     }
 
     private getProfessorsByName(name: string) {

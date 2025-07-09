@@ -1,12 +1,16 @@
-import { InvalidRequestException } from "../../exceptions/invalid-request.exception";
+import { InvalidRequestException } from "../../exceptions/invalid-request.exception.js";
 
 export class GetCourseHasProfessorRequest {
     courseId?: number;
     professorId?: number;
+    limit?: number;
+    offset?: number;
 
-    constructor(courseId?: number, professorId?: number) {
+    constructor(courseId?: number, professorId?: number, limit?: number, offset?: number) {
         this.courseId = courseId;
         this.professorId = professorId;
+        this.limit = limit;
+        this.offset = offset;
     }
     public validate() {
         if (this.isValidId(this.courseId)) {

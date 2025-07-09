@@ -1,5 +1,5 @@
-import { Grade } from "../models/grade";
-import { GradeFactory } from "../factories/grade.factory";
+import { Grade } from "../models/grade.js";
+import { GradeFactory } from "../factories/grade.factory.js";
 // TODO: Introduce indexes in all tables
 
 
@@ -26,6 +26,10 @@ export class GradeService {
         return this.gradeFactory.getAll();
     }
 
+    get(limit: number, offset: number): Promise<Grade[]> {
+        return this.gradeFactory.get(limit, offset);
+    }
+
     getByGrade(grade: number): Promise<Grade[]> {
         return this.gradeFactory.getByGrade(grade);
     }
@@ -45,7 +49,7 @@ export class GradeService {
         return this.gradeFactory.updateSemester(semester, studentId, courseId);
     }
 
-    delete(studentId: number, courseId: number): Promise<Grade[]> {
+    delete(studentId: number, courseId: number): Promise<string> {
         return this.gradeFactory.delete(studentId, courseId);
     }
 

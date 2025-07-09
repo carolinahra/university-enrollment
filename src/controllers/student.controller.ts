@@ -1,11 +1,11 @@
-import { Student } from "../models/student";
-import { GetStudentRequest } from "../requests/student/get-student.request.dto";
-import { StudentService } from "../services/student.service";
-import { ErrorResponse, ExceptionService } from "../services/exception.service";
-import { InsertStudentRequest } from "../requests/student/insert-student.request.dto";
-import { UpdateStudentRequest } from "../requests/student/update-student.request.dto";
+import { Student } from "../models/student.js";
+import { GetStudentRequest } from "../requests/student/get-student.request.dto.js";
+import { StudentService } from "../services/student.service.js";
+import { ErrorResponse, ExceptionService } from "../services/exception.service.js";
+import { InsertStudentRequest } from "../requests/student/insert-student.request.dto.js";
+import { UpdateStudentRequest } from "../requests/student/update-student.request.dto.js";
 import e from "express";
-import { DeleteStudentRequest } from "../requests/student/delete-student.request.dto";
+import { DeleteStudentRequest } from "../requests/student/delete-student.request.dto.js";
 
 export class StudentController {
     private studentService: StudentService;
