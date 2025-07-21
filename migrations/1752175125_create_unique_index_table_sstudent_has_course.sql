@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX Student_has_Course_student_id_IDX USING BTREE ON university_enrollment_system.Student_has_Course (student_id,course_id);

@@ -6,10 +6,12 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "prestart": "npm run build",
     "start": "node dist/app.js",
     "batch-adding": "node dist/tools/batch-adding.js",
     "pretest": "npm run build",
-    "test": "node --test './**/*.test.js'"
+    "test": "node --test './**/*.test.js'",
+    "test:coverage": "node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=coverage/lcov.info './**/*.test.js'"
   },
   "author": "",
   "license": "ISC",

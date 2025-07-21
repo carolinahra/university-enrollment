@@ -35,7 +35,7 @@ export class CourseHasProfessorFactory {
     }
 
     insert(courseId: number, professorId: number, state: string): Promise<CourseHasProfessor[]> {
-        return this.databaseService.execute("INSERT INTO Course_has_Professor (course_id, professor_id, state)  VALUES (?,?,?)", [courseId, professorId, state])
+        return this.databaseService.execute("INSERT IGNORE INTO Course_has_Professor (course_id, professor_id, state)  VALUES (?,?,?)", [courseId, professorId, state])
             .then(() => this.getByProfessorIdAndCourseId(professorId, courseId));
     }
 

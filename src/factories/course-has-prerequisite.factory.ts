@@ -34,7 +34,7 @@ export class CourseHasPrerequisiteFactory {
     }
 
     insert(courseId: number, prerequisiteId: number, state: string): Promise<CourseHasPrerequisite[]> {
-        return this.databaseService.execute("INSERT INTO Course_has_Prerequisite (course_id, prerequisite_id, state)  VALUES (?,?,?)", [courseId, prerequisiteId, state])
+        return this.databaseService.execute("INSERT IGNORE INTO Course_has_Prerequisite (course_id, prerequisite_id, state)  VALUES (?,?,?)", [courseId, prerequisiteId, state])
             .then(() => this.getByPrerequisiteIdAndCourseId(prerequisiteId, courseId));
     }
 

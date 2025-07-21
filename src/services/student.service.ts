@@ -1,6 +1,5 @@
 import { StudentFactory } from "../factories/student.factory.js";
 import { Student } from "../models/student.js";
-import { writeFile } from 'node:fs/promises';
 
 export class StudentService {
     private studentFactory: StudentFactory;

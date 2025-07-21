@@ -1,0 +1,2 @@
+CREATE UNIQUE INDEX Course_has_Prerequisite_course_id_IDX USING BTREE ON university_enrollment_system.Course_has_Prerequisite (course_id,prerequisite_id);
+CREATE UNIQUE INDEX Course_has_Professor_course_id_IDX USING BTREE ON university_enrollment_system.Course_has_Professor (course_id,professor_id);

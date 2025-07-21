@@ -6,7 +6,6 @@ export interface StudentHasCourse {
 }
 
 export class StudentHasCourse {
-
     courseId: number;
     studentId: number;
     state: string;
@@ -15,7 +14,7 @@ export class StudentHasCourse {
     constructor(studentHasCourse: StudentHasCourse) {
         this.courseId = studentHasCourse.courseId;
         this.studentId = studentHasCourse.studentId;
-        this.state = this.state;
+        this.state = studentHasCourse.state;
     }
 
 }

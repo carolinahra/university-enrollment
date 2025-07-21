@@ -36,14 +36,14 @@ export class StudentFactory {
 
 
     getManyByEmail(emails: string[]): Promise<Student[]> {
-        const placeholders = emails.map(() => '?').join(', ');
-        return this.databaseService.execute(`SELECT * FROM Student WHERE email IN (${placeholders})`, [emails])
+        const placeholders = emails.map(() => '?').join(',');
+        return this.databaseService.execute(`SELECT * FROM Student WHERE email IN (${placeholders})`, emails)
             .then((students) => (students as Student[]).map(student => new Student(student)));
     }
 
 
     insert(name: string, email: string): Promise<Student[]> {
-        return this.databaseService.execute("INSERT INTO Student (name, email) VALUES (?,?)", [name, email])
+        return this.databaseService.execute("INSERT IGNORE INTO Student (name, email) VALUES (?,?)", [name, email])
             .then(() => this.getByEmail(email));
 
     }

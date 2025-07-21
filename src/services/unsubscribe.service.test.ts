@@ -1,26 +1,34 @@
-import { before, describe, it, mock } from "node:test";
-import { InscriptionService } from "./inscription.service.js"
+import { describe, it, mock } from "node:test";
+import { UnsubscribeService } from "./unsubscribe.service.js";
+import assert from "assert";
 import { StudentService } from "./student.service.js";
 import { CourseService } from "./course.service.js";
 import { StudentHasCourseService } from "./student-has-course.service.js";
-import { DatabaseService } from "./database.service.js";
-import { StudentHasCourse } from "../models/student-has-course.js";
 import { Course } from "../models/course.js";
+import { StudentHasCourse } from "../models/student-has-course.js";
 import { Student } from "../models/student.js";
-import assert from "assert";
+import { DatabaseService } from "./database.service.js";
 
-
-describe('Inscription Service', () => {
-    let inscriptionService: InscriptionService;
-    it('should return an array of Student has Course', () => {
+describe('Unsubscribe Service', () => {
+    let unsubscribeService: UnsubscribeService;
+    it('should return an array of Student Has Course', () => {
         const mockStudentService = {
             getManyByEmail: () => Promise.resolve([]),
+            getAll: () => Promise.resolve([]),
+            getById: () => Promise.resolve([]),
+            getByEmail: () => Promise.resolve([]),
+            get: () => Promise.resolve([]),
+            getByName: () => Promise.resolve([]),
+            insert: () => Promise.resolve([]),
+            updateName: () => Promise.resolve([]),
+            updateEmail: () => Promise.resolve([]),
+            delete: () => Promise.resolve([]),
         };
         const mockCourseService = {
             getManyByName: () => Promise.resolve([]),
         };
         const mockStudentHasCourseService = {
-            insert: () => Promise.resolve([]),
+            updateState: () => Promise.resolve([]),
         };
         const mockPool = {
             getConnection: () => Promise.resolve(mockConnection),
@@ -37,11 +45,13 @@ describe('Inscription Service', () => {
         };
 
 
-        inscriptionService = new InscriptionService(
-            mockStudentService as unknown as StudentService,
+        unsubscribeService = new UnsubscribeService(
+            mockStudentService as unknown as StudentService, // This is solved with interfaces
             mockCourseService as unknown as CourseService,
             mockStudentHasCourseService as unknown as StudentHasCourseService,
             mockDataBaseService as unknown as DatabaseService);
+
+        // FIXTURES
 
         const fakeCourses: Course[] = [
             new Course({ id: 1, name: 'Biology', capacity: 100, state: 'active' }),
@@ -54,10 +64,10 @@ describe('Inscription Service', () => {
         ];
 
         const fakeStudentHasCourses: StudentHasCourse[] = [
-            new StudentHasCourse({ studentId: 1, courseId: 1, state: 'active' }),
-            new StudentHasCourse({ studentId: 1, courseId: 2, state: 'active' }),
-            new StudentHasCourse({ studentId: 2, courseId: 1, state: 'active' }),
-            new StudentHasCourse({ studentId: 2, courseId: 2, state: 'active' }),
+            new StudentHasCourse({ studentId: 1, courseId: 1, state: 'inactive' }),
+            new StudentHasCourse({ studentId: 1, courseId: 2, state: 'inactive' }),
+            new StudentHasCourse({ studentId: 2, courseId: 1, state: 'inactive' }),
+            new StudentHasCourse({ studentId: 2, courseId: 2, state: 'inactive' }),
 
         ];
 
@@ -81,7 +91,7 @@ describe('Inscription Service', () => {
 
         let counter = 0;
 
-        mock.method(mockStudentHasCourseService, 'insert', () => {
+        mock.method(mockStudentHasCourseService, 'updateState', () => {
             const result = fakeStudentHasCourses[counter];
             counter++;
             return Promise.resolve(result);
@@ -89,9 +99,9 @@ describe('Inscription Service', () => {
         mock.method(mockDataBaseService, 'getPool', () => {
             return mockPool;
         });
-        mock.method(mockPool, 'getConnection'), () => {
+        mock.method(mockPool, 'getConnection', () => {
             return Promise.resolve(mockConnection);
-        };
+        });
         mock.method(mockConnection, 'beginTransaction', () => {
             return Promise.resolve();
         });
@@ -105,10 +115,9 @@ describe('Inscription Service', () => {
             return Promise.resolve();
         });
 
-        return inscriptionService.inscribeMany(fakeEmails, fakeNames)
+        return unsubscribeService.unsubscribeMany(fakeEmails, fakeNames)
             .then((studentHasCourses) => {
                 assert.deepEqual(studentHasCourses, fakeStudentHasCourses)
             });
-
     });
 });

@@ -8,6 +8,15 @@ import { GetStudentRequest } from "./requests/student/get-student.request.dto.js
 import { InsertStudentRequest } from "./requests/student/insert-student.request.dto.js";
 import { UpdateStudentRequest } from "./requests/student/update-student.request.dto.js";
 import { DeleteStudentRequest } from "./requests/student/delete-student.request.dto.js";
+import { InscriptionRequest } from "./requests/inscription/inscription.request.dto.js";
+import { InscriptionController } from "./controllers/inscription.controller.js";
+import { InscriptionService } from "./services/inscription.service.js";
+import { CourseFactory } from "./factories/course.factory.js";
+import { CourseService } from "./services/course.service.js";
+import { StudentHasCourseFactory } from "./factories/student-has-course.factory.js";
+import { StudentHasCourseService } from "./services/student-has-course.service.js";
+import { LogService } from "./services/log.service.js";
+import { Record } from "./models/record.js";
 
 const app = express();
 const port = 3000;
@@ -15,8 +24,8 @@ const port = 3000;
 app.use(express.json()); // Explicar proximo dia
 
 app.use((req, res, next) => {
-    console.log('Time:', Date.now())
-    res.on('close', () => { // Event -> explicar proximo dia
+    console.log('Time:', Date.now());
+    res.on('close', () => { 
         console.log('after');
     });
     next();
@@ -33,6 +42,19 @@ const exceptionService = new ExceptionService();
 const studentFactory = new StudentFactory(dataBaseService);
 const studentService = new StudentService(studentFactory);
 const studentController = new StudentController(studentService, exceptionService);
+const courseFactory = new CourseFactory(dataBaseService);
+const courseService = new CourseService(courseFactory);
+const studentHasCourseFactory = new StudentHasCourseFactory(dataBaseService);
+const studentHasCourseService = new StudentHasCourseService(studentHasCourseFactory);
+const inscriptionService = new InscriptionService(studentService, courseService, studentHasCourseService, dataBaseService);
+const inscriptionController = new InscriptionController(inscriptionService, exceptionService);
+
+app.use((req, res, next) => {
+    const logService = new LogService();
+    logService.start();
+    logService.collect(req);
+    next();
+})
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
@@ -83,3 +105,9 @@ app.listen(port, () => {
 });
 
 // professor
+
+// inscribe
+app.post('/inscribe', (req, res) => {
+    const request = new InscriptionRequest(req.body.emails, req.body.names, req.body.email, req.body.name);
+    inscriptionController.handle(request).then((response) => res.send(response));
+})

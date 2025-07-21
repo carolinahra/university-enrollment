@@ -47,7 +47,7 @@ export class GradeFactory {
     }
 
     insert(studentId: number, courseId: number, grade: number, semester: number): Promise<Grade[]> {
-        return this.databaseService.execute("INSERT INTO Grade (student_id, course_id, grade) VALUES (?,?,?,?)", [studentId, courseId, grade, semester])
+        return this.databaseService.execute("INSERT IGNORE INTO Grade (student_id, course_id, grade) VALUES (?,?,?,?)", [studentId, courseId, grade, semester])
             .then(() => this.getByStudentIdAndCourseId(studentId, courseId));
     }
 

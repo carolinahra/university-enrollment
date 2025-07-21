@@ -1,12 +1,10 @@
 import { StudentService } from "./student.service.js";
 import { CourseService } from "./course.service.js";
 import { StudentHasCourseService } from "./student-has-course.service.js";
-import { Student } from "../models/student.js";
 import { StudentNotFoundException } from "../exceptions/student-not-found.exception.js";
 import { CourseNotFoundException } from "../exceptions/course-not-found.exception.js";
 import { DatabaseService } from "../services/database.service.js";
-import { StudentHasCourse } from "src/models/student-has-course.js";
-import { ErrorResponse } from "./exception.service.js";
+import { StudentHasCourse } from "../models/student-has-course.js";
 import { PoolConnection } from "mysql2/promise";
 
 export class InscriptionService {
@@ -39,10 +37,9 @@ export class InscriptionService {
             });
     }
 
-    inscribeMany(studentEmails: string[], courseNames: string[]): Promise<StudentHasCourse[] | void | ErrorResponse> {
+    inscribeMany(studentEmails: string[], courseNames: string[]): Promise<StudentHasCourse[]> {
         const pool = this.databaseService.getPool();
         let connection: PoolConnection;
-        // pool.getConnection().then()
 
         return pool.getConnection()
             .then((conn) => {
@@ -54,34 +51,28 @@ export class InscriptionService {
                     this.studentService.getManyByEmail(studentEmails),
                     this.courseService.getManyByName(courseNames),
                 ])
-
-            }).then(([students, courses]) => {
-
+            })
+            .then(([students, courses]) => {
                 const studentHasCourses: Promise<StudentHasCourse[]>[] = [];
+
                 for (let i = 0; i < students.length; i++) {
                     for (let j = 0; j < courses.length; j++) {
                         studentHasCourses.push(this.studentHasCourseService.insert(students[i].id, courses[j].id, 'active', connection));
-
                     }
                 }
+
                 return Promise.all(studentHasCourses);
+            })
+            .then((studentHasCourses) => {
+                return Promise.all([studentHasCourses, connection.commit()])
 
             })
-            .then((promises) => {
-                return Promise.all([promises, connection.commit()])
-
-            })
-            .then(([[promises]]) => { return promises })
-
+            .then(([studentHasCourses]) => { return studentHasCourses.flat() })
             .catch((error) => {
-                connection.rollback().then(() => {
+                return connection.rollback().then(() => {
                     throw error;
                 });
             })
             .finally(() => connection.release());
     }
-
-
-
-
 }

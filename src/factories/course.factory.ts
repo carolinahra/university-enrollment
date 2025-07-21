@@ -35,8 +35,8 @@ export class CourseFactory {
     }
 
     getManyByName(names: string[]): Promise<Course[]> {
-        const placeholders = names.map(() => '?').join(', ');
-        return this.databaseService.execute("SELECT * FROM Course WHERE name IN (${placeholders})", [names])
+        const placeholders = names.map(() => '?').join(',');
+        return this.databaseService.execute(`SELECT * FROM Course WHERE name IN (${placeholders})`, names)
             .then((courses) => (courses as Course[]).map(course => new Course(course)));
     }
 
