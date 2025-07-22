@@ -7,6 +7,7 @@ export interface Student {
 export class Student {
     id?: number;
     name: string;
+    password: string;
     email: string;
 
     constructor(student: Student) {
