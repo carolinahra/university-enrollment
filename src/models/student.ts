@@ -7,8 +7,8 @@ export interface Student {
 export class Student {
     id?: number;
     name: string;
-    password: string;
     email: string;
+    password: string;
 
     constructor(student: Student) {
         this.id = student.id;
