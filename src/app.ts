@@ -65,7 +65,7 @@ app.get('/', (req, res) => {
 
 // student
 app.get('/students', (req, res) => {
-    console.log(req.query); // QUERY PARAMETERS
+    console.log(req.query, req.accepted); // QUERY PARAMETERS
     const request = new GetStudentRequest(req.query.name as string, req.query.email as string, req.query.limit as unknown as number, req.query.offset as unknown as number);
 
     studentController.get(request).then((students) => res.send(students));
