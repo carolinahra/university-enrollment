@@ -1,5 +1,5 @@
 import { appendFile, mkdir } from "node:fs/promises"
-import { Record } from "src/models/record.js"
+import { Record } from "../models/record.js"
 import { Request } from "express"
 import { existsSync } from "node:fs"
 import path from "node:path"

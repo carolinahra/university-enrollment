@@ -2,12 +2,12 @@ import { describe, it, mock } from "node:test";
 import { UnsubscribeService } from "./unsubscribe.service.js";
 import assert from "assert";
 import { StudentService } from "./student.service.js";
-import { CourseService } from "./course.service.js";
+import { CourseService } from "../modules/course/services/course.service.js";
 import { StudentHasCourseService } from "./student-has-course.service.js";
-import { Course } from "../models/course.js";
+import { Course } from "../modules/course/models/course.js";
 import { StudentHasCourse } from "../models/student-has-course.js";
 import { Student } from "../models/student.js";
-import { DatabaseService } from "./database.service.js";
+import { DatabaseService } from "../shared/services/database.service.js";
 
 describe('Unsubscribe Service', () => {
     let unsubscribeService: UnsubscribeService;

@@ -2,7 +2,7 @@ import { describe, it, mock, after, before, beforeEach, afterEach } from 'node:t
 import assert from 'node:assert';
 import { DatabaseService } from "../services/database.service.js";
 import { CourseFactory } from "./course.factory.js";
-import { Course } from "../models/course.js";
+import { Course } from "../modules/course/models/course.js";
 
 describe('Course Factory', () => {
     let databaseService: DatabaseService;

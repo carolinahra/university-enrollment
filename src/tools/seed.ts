@@ -1,5 +1,5 @@
 import { StudentService } from "../services/student.service.js";
-import { DatabaseService } from "../services/database.service.js"
+import { DatabaseService } from "../shared/services/database.service.js"
 import { StudentFactory } from "../factories/student.factory.js";
 import { StudentHasCourseFactory } from "../factories/student-has-course.factory.js";
 import { ProfessorFactory } from "../factories/professor.factory.js";
@@ -10,7 +10,7 @@ import { CourseHasProfessorFactory } from "src/factories/course-has-professor.fa
 import { CourseHasPrerequisiteFactory } from "src/factories/course-has-prerequisite.factory.js";
 import { Student } from "src/models/student.js";
 import { Professor } from "src/models/professor.js";
-import { Course } from "src/models/course.js";
+import { Course } from "src/modules/course/models/course.js";
 import { Prerequisite } from "src/models/prerequisite.js";
 import { Grade } from "src/models/grade.js";
 import { CourseHasProfessor } from "src/models/course-has-professor.js";

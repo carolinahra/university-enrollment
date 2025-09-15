@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
 import { Student } from "../models/student.js";
-import { DatabaseService } from "../services/database.service.js";
+import { DatabaseService } from "../shared/services/database.service.js";
 
 // TODO: Introduce indexes in all tables
 export class StudentFactory {

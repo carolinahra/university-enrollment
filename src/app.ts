@@ -1,5 +1,5 @@
 import express from "express";
-import { DatabaseService } from "./services/database.service.js";
+import { DatabaseService } from "./shared/services/database.service.js";
 import { StudentFactory } from "./factories/student.factory.js";
 import { StudentService } from "./services/student.service.js"
 import { StudentController } from "./controllers/student.controller.js";
@@ -11,8 +11,8 @@ import { DeleteStudentRequest } from "./requests/student/delete-student.request.
 import { InscriptionRequest } from "./requests/inscription/inscription.request.dto.js";
 import { InscriptionController } from "./controllers/inscription.controller.js";
 import { InscriptionService } from "./services/inscription.service.js";
-import { CourseFactory } from "./factories/course.factory.js";
-import { CourseService } from "./services/course.service.js";
+import { CourseFactory } from "./modules/course/factories/course.factory.js";
+import { CourseService } from "./modules/course/services/course.service.js";
 import { StudentHasCourseFactory } from "./factories/student-has-course.factory.js";
 import { StudentHasCourseService } from "./services/student-has-course.service.js";
 import { LogService } from "./services/log.service.js";

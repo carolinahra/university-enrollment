@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
 import { Prerequisite } from "../models/prerequisite.js";
-import { DatabaseService } from "../services/database.service.js";
+import { DatabaseService } from "../shared/services/database.service.js";
 
 export class PrerequisiteFactory {
     private databaseService: DatabaseService;

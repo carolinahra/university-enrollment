@@ -1,9 +1,9 @@
 import { before, describe, it, mock } from "node:test";
 import { CourseController } from "./course.controller.js"
 import { CourseService } from "../services/course.service.js";
-import { ExceptionService } from "../services/exception.service.js";
+import { ExceptionService } from "../../../services/exception.service.js";
 import assert from "assert";
-import { GetCourseRequest } from "../requests/course/get-course.request.dto.js";
+import { GetCourseRequest } from "../../../requests/course/get-course.request.dto.js";
 
 describe('Course Controller', () => {
     let courseController: CourseController;

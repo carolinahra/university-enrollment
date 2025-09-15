@@ -1,6 +1,6 @@
 import { Student } from "../models/student.js";
 import { StudentService } from "../services/student.service.js";
-import { DatabaseService } from "../services/database.service.js"
+import { DatabaseService } from "../shared/services/database.service.js"
 import { StudentFactory } from "../factories/student.factory.js";
 import { StudentHasCourseFactory } from "../factories/student-has-course.factory.js";
 import { StudentHasCourseService } from "../services/student-has-course.service.js";

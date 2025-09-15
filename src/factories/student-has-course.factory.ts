@@ -1,6 +1,6 @@
 import { PoolConnection } from "mysql2/promise";
 import { StudentHasCourse } from "../models/student-has-course.js";
-import { DatabaseService } from "../services/database.service.js";
+import { DatabaseService } from "../shared/services/database.service.js";
 
 export class StudentHasCourseFactory {
     private databaseService: DatabaseService;

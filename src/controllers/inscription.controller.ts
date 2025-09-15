@@ -1,4 +1,4 @@
-import { InvalidRequestException } from "../exceptions/invalid-request.exception.js";
+import { InvalidRequestException } from "../shared/exceptions/invalid-request.exception.js";
 import { StudentHasCourse } from "../models/student-has-course.js";
 import { InscriptionRequest } from "../requests/inscription/inscription.request.dto.js";
 import { ErrorResponse, ExceptionService } from "../services/exception.service.js";

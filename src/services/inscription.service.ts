@@ -1,9 +1,9 @@
 import { StudentService } from "./student.service.js";
-import { CourseService } from "./course.service.js";
+import { CourseService } from "../modules/course/services/course.service.js";
 import { StudentHasCourseService } from "./student-has-course.service.js";
 import { StudentNotFoundException } from "../exceptions/student-not-found.exception.js";
-import { CourseNotFoundException } from "../exceptions/course-not-found.exception.js";
-import { DatabaseService } from "../services/database.service.js";
+import { CourseNotFoundException } from "../modules/course/exceptions/course-not-found.exception.js";
+import { DatabaseService } from "../shared/services/database.service.js";
 import { StudentHasCourse } from "../models/student-has-course.js";
 import { PoolConnection } from "mysql2/promise";
 

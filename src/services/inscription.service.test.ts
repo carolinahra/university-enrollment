@@ -1,11 +1,11 @@
 import { before, describe, it, mock } from "node:test";
 import { InscriptionService } from "./inscription.service.js"
 import { StudentService } from "./student.service.js";
-import { CourseService } from "./course.service.js";
+import { CourseService } from "../modules/course/services/course.service.js";
 import { StudentHasCourseService } from "./student-has-course.service.js";
-import { DatabaseService } from "./database.service.js";
+import { DatabaseService } from "../shared/services/database.service.js";
 import { StudentHasCourse } from "../models/student-has-course.js";
-import { Course } from "../models/course.js";
+import { Course } from "../modules/course/models/course.js";
 import { Student } from "../models/student.js";
 import assert from "assert";
 

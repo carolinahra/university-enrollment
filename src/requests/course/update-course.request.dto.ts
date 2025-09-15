@@ -1,5 +1,5 @@
 import { stringify } from "querystring";
-import { InvalidRequestException } from "../../exceptions/invalid-request.exception.js";
+import { InvalidRequestException } from "../../shared/exceptions/invalid-request.exception.js";
 
 export class UpdateCourseRequest {
     name: string;

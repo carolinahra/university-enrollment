@@ -1,4 +1,4 @@
-import { InvalidRequestException } from "../../exceptions/invalid-request.exception.js";
+import { InvalidRequestException } from "../../shared/exceptions/invalid-request.exception.js";
 
 export class DeleteStudentRequest {
     email: string;

@@ -1,5 +1,5 @@
 import { CourseHasPrerequisite } from "../models/course-has-prerequisite.js";
-import { DatabaseService } from "../services/database.service.js";
+import { DatabaseService } from "../shared/services/database.service.js";
 // TODO: Introduce indexes in all tables
 
 
